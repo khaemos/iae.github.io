@@ -85,44 +85,72 @@
         <div class="section-heading split">
           <div>
             <p class="eyebrow">Research Log</p>
-            <h2 id="log-title">Chronological experiments</h2>
+            <h2 id="log-title">Experimental notebook</h2>
           </div>
           <p>
-            Entries are written as lab notes first: objective, setup, observations,
-            conclusion, and next action.
+            Structured entries for electrical potential, field geometry, materials,
+            boundary conditions, instrumentation, observations, and next tests.
           </p>
         </div>
-        <div class="timeline">
-          <article class="log-entry">
-            <span class="entry-number">#001</span>
-            <div>
-              <h3>Coupled Coil Baseline</h3>
-              <p>
-                Establish a repeatable air-core induction bench and characterize how
-                spacing, alignment, and load affect transfer efficiency.
-              </p>
+        <div class="lab-console">
+          <form class="entry-form" data-entry-form>
+            <input type="hidden" name="id" />
+            <div class="form-row">
+              <label>
+                Experiment title
+                <input name="title" type="text" required placeholder="Electrostatic potential gradient near..." />
+              </label>
+              <label>
+                Date
+                <input name="date" type="date" required />
+              </label>
             </div>
-          </article>
-          <article class="log-entry">
-            <span class="entry-number">#002</span>
-            <div>
-              <h3>Ferrite Boundary Study</h3>
-              <p>
-                Compare field concentration and shielding behavior across several
-                ferrite geometries using mapped voltage response.
-              </p>
+            <div class="form-row">
+              <label>
+                Classification
+                <select name="visibility">
+                  <option value="public">Public</option>
+                  <option value="private">Private</option>
+                </select>
+              </label>
+              <label>
+                Tags
+                <input name="tags" type="text" placeholder="potential, induction, dielectric" />
+              </label>
             </div>
-          </article>
-          <article class="log-entry">
-            <span class="entry-number">#003</span>
-            <div>
-              <h3>Resonant Sensor Prototype</h3>
-              <p>
-                Build a low-power resonant sensor to detect small changes in material
-                proximity through frequency shift and quality factor.
-              </p>
+            <label>
+              Objective
+              <textarea name="objective" rows="3" required placeholder="What question is this experiment testing?"></textarea>
+            </label>
+            <label>
+              Apparatus and method
+              <textarea name="method" rows="4" placeholder="Circuit, geometry, materials, instruments, environmental notes"></textarea>
+            </label>
+            <label>
+              Observations and measurements
+              <textarea name="observations" rows="5" required placeholder="Numerical readings, field behavior, anomalies, sketches in words"></textarea>
+            </label>
+            <label>
+              Interpretation and next action
+              <textarea name="next" rows="3" placeholder="What changed in your model? What should be tested next?"></textarea>
+            </label>
+            <div class="form-actions">
+              <button class="button primary" type="submit" data-save-entry>Save Entry</button>
+              <button class="button secondary" type="button" data-reset-entry>New Blank Entry</button>
             </div>
-          </article>
+          </form>
+
+          <div class="log-panel">
+            <div class="log-tools">
+              <div class="segmented-control" aria-label="Filter research log entries">
+                <button type="button" class="is-active" data-filter="all">All</button>
+                <button type="button" data-filter="public">Public</button>
+                <button type="button" data-filter="private">Private</button>
+              </div>
+              <button class="button secondary compact" type="button" data-export-entries>Export JSON</button>
+            </div>
+            <div class="timeline" data-entry-list></div>
+          </div>
         </div>
       </section>
 
