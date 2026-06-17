@@ -6,12 +6,12 @@
     <title>Institute of Applied Electrodynamics</title>
     <meta
       name="description"
-      content="An independent institute experimenting with electrical potential, electromagnetism, and applied electrodynamic systems."
+      content="A modern electrodynamics institute for experiments in electrical potential, electromagnetic fields, resonance, induction, and engineered field systems."
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,500;8..60,650&display=swap"
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,500;8..60,650&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
@@ -22,7 +22,7 @@
         <img src="assets/field-mark.svg" alt="" />
         <span>
           <strong>IAE</strong>
-          <small>Applied Electrodynamics</small>
+          <small>Institute of Applied Electrodynamics</small>
         </span>
       </a>
       <nav class="nav" aria-label="Primary navigation">
@@ -40,24 +40,27 @@
     </header>
 
     <main id="home">
-      <section class="hero section" aria-labelledby="hero-title">
+      <section class="hero" aria-labelledby="hero-title">
         <canvas class="field-canvas" data-field-canvas aria-hidden="true"></canvas>
         <div class="hero-grid">
           <div class="hero-copy">
-            <p class="eyebrow">Independent research institute</p>
+            <p class="eyebrow">Experimental electrodynamics laboratory</p>
             <h1 id="hero-title">Institute of Applied Electrodynamics</h1>
             <p class="hero-subtitle">
-              Electrical potential, electromagnetic fields, resonance, and induction
-              translated into practical experiments, instruments, and publications.
+              Electrical potential, induction, resonance, and electromagnetic field
+              structure investigated through disciplined apparatus, measurement, and
+              published experimental records.
             </p>
             <div class="hero-actions" aria-label="Primary links">
-              <a class="button primary" href="#log">View Research Log</a>
-              <a class="button secondary" href="#join">Collaborate</a>
+              <a class="button primary" href="#log">Read Experiments</a>
+              <a class="button secondary" href="#laboratory">Laboratory</a>
             </div>
           </div>
           <figure class="hero-visual">
-            <img src="assets/field-lines.svg" alt="Abstract electromagnetic field lines crossing a technical grid" />
-            <figcaption>Field patterns, boundary conditions, materials, measurement.</figcaption>
+            <img src="assets/field-lines.svg" alt="Monochrome electrodynamic apparatus diagram with field lines" />
+            <figcaption>
+              Field geometry / terminal potential / resonance / measurement chain
+            </figcaption>
           </figure>
         </div>
       </section>
@@ -65,18 +68,18 @@
       <section class="section mission-band" id="mission" aria-labelledby="mission-title">
         <div class="section-heading">
           <p class="eyebrow">Mission</p>
-          <h2 id="mission-title">Turn electric and magnetic field behavior into engineered capability.</h2>
+          <h2 id="mission-title">A precise public record of field experiments.</h2>
         </div>
         <div class="mission-copy">
           <p>
-            The institute studies electromagnetic phenomena as working principles:
-            resonance, induction, propagation, coupling, shielding, energy transfer,
-            sensing, and material response.
+            The institute studies electrodynamic phenomena as engineering primitives:
+            potential gradients, displacement effects, induction, resonance, coupling,
+            shielding, propagation, and material response.
           </p>
           <p>
-            Its purpose is to keep a rigorous public record of experiments and turn
-            promising observations into useful devices, educational reports, and
-            repeatable laboratory methods.
+            Each investigation is documented from apparatus to observation so results
+            can be revisited, corrected, repeated, and eventually developed into
+            useful instruments or formal publications.
           </p>
         </div>
       </section>
@@ -85,103 +88,60 @@
         <div class="section-heading split">
           <div>
             <p class="eyebrow">Research Log</p>
-            <h2 id="log-title">Experimental notebook</h2>
+            <h2 id="log-title">Published experiment entries</h2>
           </div>
           <p>
-            Structured entries for electrical potential, field geometry, materials,
-            boundary conditions, instrumentation, observations, and next tests.
+            Public entries are loaded from <code>research-log/manifest.json</code>.
+            To publish a new experiment, upload one entry file and add it to the
+            manifest.
           </p>
         </div>
-        <div class="lab-console">
-          <form class="entry-form" data-entry-form>
-            <input type="hidden" name="id" />
-            <div class="form-row">
-              <label>
-                Experiment title
-                <input name="title" type="text" required placeholder="Electrostatic potential gradient near..." />
-              </label>
-              <label>
-                Date
-                <input name="date" type="date" required />
-              </label>
-            </div>
-            <div class="form-row">
-              <label>
-                Classification
-                <select name="visibility">
-                  <option value="public">Public</option>
-                  <option value="private">Private</option>
-                </select>
-              </label>
-              <label>
-                Tags
-                <input name="tags" type="text" placeholder="potential, induction, dielectric" />
-              </label>
-            </div>
-            <label>
-              Objective
-              <textarea name="objective" rows="3" required placeholder="What question is this experiment testing?"></textarea>
-            </label>
-            <label>
-              Apparatus and method
-              <textarea name="method" rows="4" placeholder="Circuit, geometry, materials, instruments, environmental notes"></textarea>
-            </label>
-            <label>
-              Observations and measurements
-              <textarea name="observations" rows="5" required placeholder="Numerical readings, field behavior, anomalies, sketches in words"></textarea>
-            </label>
-            <label>
-              Interpretation and next action
-              <textarea name="next" rows="3" placeholder="What changed in your model? What should be tested next?"></textarea>
-            </label>
-            <div class="form-actions">
-              <button class="button primary" type="submit" data-save-entry>Save Entry</button>
-              <button class="button secondary" type="button" data-reset-entry>New Blank Entry</button>
-            </div>
-          </form>
 
-          <div class="log-panel">
-            <div class="log-tools">
-              <div class="segmented-control" aria-label="Filter research log entries">
-                <button type="button" class="is-active" data-filter="all">All</button>
-                <button type="button" data-filter="public">Public</button>
-                <button type="button" data-filter="private">Private</button>
-              </div>
-              <button class="button secondary compact" type="button" data-export-entries>Export JSON</button>
-            </div>
-            <div class="timeline" data-entry-list></div>
+        <div class="publishing-note">
+          <div>
+            <span class="mono-label">ENTRY WORKFLOW</span>
+            <p>
+              Draft privately, polish the public version, copy the template in
+              <code>research-log/_template.json</code>, then list the new file in
+              <code>research-log/manifest.json</code>.
+            </p>
           </div>
+          <a class="text-link" href="research-log/README.md">View entry instructions</a>
+        </div>
+
+        <div class="timeline" data-entry-list>
+          <p class="empty-log">Loading research log...</p>
         </div>
       </section>
 
       <section class="section projects-band" id="projects" aria-labelledby="projects-title">
         <div class="section-heading">
           <p class="eyebrow">Projects</p>
-          <h2 id="projects-title">Ongoing investigations</h2>
+          <h2 id="projects-title">Primary lines of investigation</h2>
         </div>
         <div class="project-grid">
           <article class="project-card">
             <span>01</span>
-            <h3>Field-Coupled Power</h3>
+            <h3>Potential Structures</h3>
             <p>
-              Efficient near-field energy transfer for enclosed, rotating, or sealed
-              systems where physical contacts limit reliability.
+              Mapping electrical potential around electrode geometries, dielectric
+              boundaries, terminal arrangements, and charged assemblies.
             </p>
           </article>
           <article class="project-card">
             <span>02</span>
-            <h3>Material Response Mapping</h3>
+            <h3>Resonant Systems</h3>
             <p>
-              Low-cost measurement methods for visualizing how materials guide,
-              absorb, distort, or shield electromagnetic fields.
+              Coils, capacitive bodies, tuned circuits, and coupled oscillators studied
+              as controllable electrodynamic instruments.
             </p>
           </article>
           <article class="project-card">
             <span>03</span>
-            <h3>Nature-Inspired Antennas</h3>
+            <h3>Field-Coupled Transfer</h3>
             <p>
-              Structural patterns from leaves, shells, and branching systems explored
-              as compact radiating and receiving geometries.
+              Near-field energy exchange, induction, shielding, loading, and measurement
+              methods for engineered field interaction.
             </p>
           </article>
         </div>
@@ -191,20 +151,20 @@
         <div class="section-heading split">
           <div>
             <p class="eyebrow">Publications</p>
-            <h2 id="publications-title">Reports and public notes</h2>
+            <h2 id="publications-title">Reports and technical memoranda</h2>
           </div>
-          <a class="text-link" href="#join">Request preprints</a>
+          <a class="text-link" href="#join">Request correspondence</a>
         </div>
         <div class="publication-list">
           <article>
             <p class="pub-type">Technical memorandum</p>
-            <h3>Measurement Protocol for Small Coupled Inductors</h3>
-            <p>Drafting: repeatable fixture design, calibration, and uncertainty notes.</p>
+            <h3>Measurement Protocol for Coupled Inductive Apparatus</h3>
+            <p>Drafting: fixture geometry, calibration sequence, and uncertainty notes.</p>
           </article>
           <article>
             <p class="pub-type">Research brief</p>
-            <h3>Resonance as a Sensing Primitive</h3>
-            <p>Planned: an accessible introduction to Q factor, detuning, and transduction.</p>
+            <h3>Electrical Potential as an Experimental Variable</h3>
+            <p>Planned: methods for recording potential, geometry, and boundary conditions.</p>
           </article>
         </div>
       </section>
@@ -216,16 +176,16 @@
         </div>
         <div class="capability-grid">
           <div>
-            <h3>Measurement</h3>
-            <p>Oscilloscopes, signal generation, impedance checks, frequency response, and thermal observation.</p>
+            <h3>Electrical Measurement</h3>
+            <p>Oscilloscope, signal generation, voltage mapping, impedance checks, frequency response, and thermal observation.</p>
           </div>
           <div>
-            <h3>Fabrication</h3>
-            <p>Coil winding, fixture design, small enclosures, material samples, and rapid prototype assemblies.</p>
+            <h3>Apparatus Fabrication</h3>
+            <p>Coil winding, electrode fixtures, insulated frames, material samples, terminal bodies, and prototype assemblies.</p>
           </div>
           <div>
-            <h3>Analysis</h3>
-            <p>Data logging, field sketches, curve fitting, report writing, and reproducibility review.</p>
+            <h3>Experimental Record</h3>
+            <p>Data tables, field sketches, instrument settings, repeatability notes, and public/private publication workflow.</p>
           </div>
         </div>
       </section>
@@ -233,11 +193,12 @@
       <section class="section join" id="join" aria-labelledby="join-title">
         <div>
           <p class="eyebrow">Join</p>
-          <h2 id="join-title">For collaborators, builders, and patient observers.</h2>
+          <h2 id="join-title">For builders of careful apparatus.</h2>
           <p>
-            The institute is forming around careful experiments and useful engineering.
-            Future collaborators can contribute measurement skill, materials knowledge,
-            mathematical modeling, fabrication, writing, or field testing.
+            The institute is forming around disciplined experiments in applied
+            electrodynamics. Future collaborators can contribute measurement skill,
+            circuit design, materials knowledge, mathematical modeling, fabrication,
+            or technical writing.
           </p>
         </div>
         <form class="join-form" action="mailto:hello@example.com" method="post" enctype="text/plain">
@@ -253,14 +214,14 @@
             Interest
             <textarea name="interest" rows="4"></textarea>
           </label>
-          <button class="button primary" type="submit">Start a Conversation</button>
+          <button class="button primary" type="submit">Start Correspondence</button>
         </form>
       </section>
     </main>
 
     <footer class="site-footer">
       <p>Institute of Applied Electrodynamics</p>
-      <p>Applied electromagnetism for useful systems.</p>
+      <p>Potential. Field. Apparatus. Record.</p>
     </footer>
 
     <script src="script.js"></script>

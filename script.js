@@ -4,15 +4,7 @@ const navToggle = document.querySelector("[data-nav-toggle]");
 const navLinks = document.querySelectorAll(".nav a");
 const canvas = document.querySelector("[data-field-canvas]");
 const ctx = canvas.getContext("2d");
-const entryForm = document.querySelector("[data-entry-form]");
 const entryList = document.querySelector("[data-entry-list]");
-const filterButtons = document.querySelectorAll("[data-filter]");
-const resetEntryButton = document.querySelector("[data-reset-entry]");
-const exportEntriesButton = document.querySelector("[data-export-entries]");
-const storageKey = "iae.researchLog.entries";
-
-let activeFilter = "all";
-let entries = loadEntries();
 
 navToggle.addEventListener("click", () => {
   body.classList.toggle("nav-open");
@@ -23,53 +15,8 @@ navLinks.forEach((link) => {
   link.addEventListener("click", () => body.classList.remove("nav-open"));
 });
 
-function defaultEntries() {
-  return [
-    {
-      id: "seed-001",
-      number: 1,
-      title: "Coupled Coil Baseline",
-      date: "2026-06-17",
-      visibility: "public",
-      tags: ["induction", "coupling", "baseline"],
-      objective: "Establish a repeatable air-core induction bench and characterize spacing, alignment, and load response.",
-      method: "Primary and secondary coils mounted on a fixed rail. Drive voltage, frequency, distance, and load resistance recorded at each interval.",
-      observations: "Initial transfer response should be logged against coil separation and angular offset. Watch for heating, probe loading, and fixture movement.",
-      next: "Create a controlled sweep table and compare unloaded versus loaded secondary behavior.",
-    },
-    {
-      id: "seed-002",
-      number: 2,
-      title: "Electrostatic Potential Gradient Fixture",
-      date: "2026-06-17",
-      visibility: "private",
-      tags: ["potential", "gradient", "dielectric"],
-      objective: "Create a small fixture for observing how electrode geometry and dielectric placement alter measured potential.",
-      method: "Parallel and asymmetric electrode arrangements with interchangeable dielectric samples. Record voltage map points under fixed supply conditions.",
-      observations: "Private working note: define safe voltage limits, discharge procedure, and measurement spacing before live testing.",
-      next: "Build the first electrode plate fixture and document insulation distances.",
-    },
-  ];
-}
-
-function loadEntries() {
-  const saved = localStorage.getItem(storageKey);
-  if (!saved) return defaultEntries();
-
-  try {
-    const parsed = JSON.parse(saved);
-    return Array.isArray(parsed) ? parsed : defaultEntries();
-  } catch {
-    return defaultEntries();
-  }
-}
-
-function saveEntries() {
-  localStorage.setItem(storageKey, JSON.stringify(entries));
-}
-
 function escapeHtml(value) {
-  return String(value)
+  return String(value ?? "")
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;")
@@ -81,62 +28,50 @@ function formatExperimentNumber(number) {
   return `#${String(number).padStart(3, "0")}`;
 }
 
-function nextEntryNumber() {
-  return entries.reduce((highest, entry) => Math.max(highest, Number(entry.number) || 0), 0) + 1;
-}
-
-function parseTags(value) {
-  return value
-    .split(",")
-    .map((tag) => tag.trim())
-    .filter(Boolean);
-}
-
-function renderEntries() {
-  const visibleEntries = entries
-    .filter((entry) => activeFilter === "all" || entry.visibility === activeFilter)
-    .sort((a, b) => new Date(b.date) - new Date(a.date) || b.number - a.number);
-
-  if (!visibleEntries.length) {
-    entryList.innerHTML = '<p class="empty-log">No entries match this filter.</p>';
+function renderEntries(entries) {
+  if (!entries.length) {
+    entryList.innerHTML = '<p class="empty-log">No public research entries have been published yet.</p>';
     return;
   }
 
-  entryList.innerHTML = visibleEntries
+  const sortedEntries = entries.sort((a, b) => new Date(b.date) - new Date(a.date) || Number(b.number) - Number(a.number));
+  entryList.innerHTML = sortedEntries
     .map((entry) => {
-      const tags = entry.tags.map((tag) => `<span class="tag-pill">${escapeHtml(tag)}</span>`).join("");
-      const statusClass = entry.visibility === "private" ? " private" : "";
+      const tags = (entry.tags || []).map((tag) => `<span class="tag-pill">${escapeHtml(tag)}</span>`).join("");
+      const measurements = (entry.measurements || [])
+        .map((item) => `<li><strong>${escapeHtml(item.label)}:</strong> ${escapeHtml(item.value)}</li>`)
+        .join("");
 
       return `
-        <article class="log-entry" data-entry-id="${escapeHtml(entry.id)}">
-          <span class="entry-number">${formatExperimentNumber(entry.number)}</span>
-          <div>
+        <article class="log-entry">
+          <div class="entry-number">${formatExperimentNumber(entry.number)}</div>
+          <div class="entry-body">
             <div class="entry-meta">
               <span>${escapeHtml(entry.date)}</span>
-              <span class="status-pill${statusClass}">${escapeHtml(entry.visibility)}</span>
+              <span>${escapeHtml(entry.status || "published")}</span>
             </div>
             <h3>${escapeHtml(entry.title)}</h3>
+            <p class="entry-summary">${escapeHtml(entry.summary)}</p>
             <div class="tag-list">${tags}</div>
-            <div class="entry-section">
-              <strong>Objective</strong>
-              <p>${escapeHtml(entry.objective)}</p>
+            <div class="entry-grid">
+              <div>
+                <strong>Objective</strong>
+                <p>${escapeHtml(entry.objective)}</p>
+              </div>
+              <div>
+                <strong>Apparatus</strong>
+                <p>${escapeHtml(entry.apparatus)}</p>
+              </div>
+              <div>
+                <strong>Observations</strong>
+                <p>${escapeHtml(entry.observations)}</p>
+              </div>
+              <div>
+                <strong>Next test</strong>
+                <p>${escapeHtml(entry.next)}</p>
+              </div>
             </div>
-            <div class="entry-section">
-              <strong>Apparatus and method</strong>
-              <p>${escapeHtml(entry.method || "Not recorded.")}</p>
-            </div>
-            <div class="entry-section">
-              <strong>Observations</strong>
-              <p>${escapeHtml(entry.observations)}</p>
-            </div>
-            <div class="entry-section">
-              <strong>Interpretation and next action</strong>
-              <p>${escapeHtml(entry.next || "Not recorded.")}</p>
-            </div>
-            <div class="entry-actions">
-              <button class="text-button" type="button" data-edit-entry="${escapeHtml(entry.id)}">Edit</button>
-              <button class="text-button" type="button" data-delete-entry="${escapeHtml(entry.id)}">Delete</button>
-            </div>
+            ${measurements ? `<ul class="measurement-list">${measurements}</ul>` : ""}
           </div>
         </article>
       `;
@@ -144,92 +79,33 @@ function renderEntries() {
     .join("");
 }
 
-function resetEntryForm() {
-  entryForm.reset();
-  entryForm.elements.id.value = "";
-  entryForm.elements.date.value = new Date().toISOString().slice(0, 10);
-  entryForm.elements.visibility.value = "private";
-  entryForm.querySelector("[data-save-entry]").textContent = "Save Entry";
+async function loadResearchLog() {
+  try {
+    const manifestResponse = await fetch("research-log/manifest.json", { cache: "no-store" });
+    if (!manifestResponse.ok) throw new Error("Manifest not available");
+    const manifest = await manifestResponse.json();
+    const entryResponses = await Promise.all(
+      manifest.entries.map(async (path) => {
+        const response = await fetch(`research-log/${path}`, { cache: "no-store" });
+        if (!response.ok) throw new Error(`Entry not available: ${path}`);
+        return response.json();
+      })
+    );
+    renderEntries(entryResponses.filter((entry) => entry.visibility !== "private"));
+  } catch (error) {
+    entryList.innerHTML = `
+      <p class="empty-log">
+        Research entries could not be loaded. When testing locally, serve the folder
+        with a small web server instead of opening the HTML file directly.
+      </p>
+    `;
+  }
 }
 
-function fillEntryForm(entry) {
-  entryForm.elements.id.value = entry.id;
-  entryForm.elements.title.value = entry.title;
-  entryForm.elements.date.value = entry.date;
-  entryForm.elements.visibility.value = entry.visibility;
-  entryForm.elements.tags.value = entry.tags.join(", ");
-  entryForm.elements.objective.value = entry.objective;
-  entryForm.elements.method.value = entry.method;
-  entryForm.elements.observations.value = entry.observations;
-  entryForm.elements.next.value = entry.next;
-  entryForm.querySelector("[data-save-entry]").textContent = "Update Entry";
-  entryForm.scrollIntoView({ behavior: "smooth", block: "start" });
-}
-
-entryForm.addEventListener("submit", (event) => {
-  event.preventDefault();
-  const formData = new FormData(entryForm);
-  const id = formData.get("id") || crypto.randomUUID();
-  const existing = entries.find((entry) => entry.id === id);
-  const entry = {
-    id,
-    number: existing ? existing.number : nextEntryNumber(),
-    title: formData.get("title").trim(),
-    date: formData.get("date"),
-    visibility: formData.get("visibility"),
-    tags: parseTags(formData.get("tags")),
-    objective: formData.get("objective").trim(),
-    method: formData.get("method").trim(),
-    observations: formData.get("observations").trim(),
-    next: formData.get("next").trim(),
-  };
-
-  entries = existing ? entries.map((item) => (item.id === id ? entry : item)) : [entry, ...entries];
-  saveEntries();
-  renderEntries();
-  resetEntryForm();
-});
-
-entryList.addEventListener("click", (event) => {
-  const editId = event.target.closest("[data-edit-entry]")?.dataset.editEntry;
-  const deleteId = event.target.closest("[data-delete-entry]")?.dataset.deleteEntry;
-
-  if (editId) {
-    const entry = entries.find((item) => item.id === editId);
-    if (entry) fillEntryForm(entry);
-  }
-
-  if (deleteId) {
-    entries = entries.filter((entry) => entry.id !== deleteId);
-    saveEntries();
-    renderEntries();
-  }
-});
-
-filterButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    activeFilter = button.dataset.filter;
-    filterButtons.forEach((item) => item.classList.toggle("is-active", item === button));
-    renderEntries();
-  });
-});
-
-resetEntryButton.addEventListener("click", resetEntryForm);
-
-exportEntriesButton.addEventListener("click", () => {
-  const blob = new Blob([JSON.stringify(entries, null, 2)], { type: "application/json" });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = "iae-research-log.json";
-  link.click();
-  URL.revokeObjectURL(url);
-});
-
-const particles = Array.from({ length: 58 }, (_, index) => ({
-  phase: index * 0.38,
-  radius: 0.12 + (index % 9) * 0.018,
-  speed: 0.002 + (index % 5) * 0.00035,
+const particles = Array.from({ length: 42 }, (_, index) => ({
+  phase: index * 0.51,
+  radius: 0.16 + (index % 7) * 0.021,
+  speed: 0.0017 + (index % 5) * 0.00032,
 }));
 
 function resizeCanvas() {
@@ -244,33 +120,43 @@ function drawField(time) {
   const height = canvas.offsetHeight;
   ctx.clearRect(0, 0, width, height);
 
-  const gradient = ctx.createLinearGradient(0, 0, width, height);
-  gradient.addColorStop(0, "rgba(30, 125, 122, 0.22)");
-  gradient.addColorStop(0.5, "rgba(198, 152, 53, 0.12)");
-  gradient.addColorStop(1, "rgba(185, 76, 40, 0.18)");
-  ctx.fillStyle = gradient;
+  ctx.fillStyle = "#07090d";
   ctx.fillRect(0, 0, width, height);
 
+  ctx.strokeStyle = "rgba(142, 170, 188, 0.1)";
   ctx.lineWidth = 1;
-  for (let i = 0; i < 18; i += 1) {
-    const y = (height / 18) * i + Math.sin(time * 0.0006 + i) * 14;
+  for (let x = 0; x < width; x += 42) {
     ctx.beginPath();
-    for (let x = -20; x <= width + 20; x += 20) {
-      const wave = Math.sin(x * 0.008 + i * 0.7 + time * 0.0008) * 22;
+    ctx.moveTo(x, 0);
+    ctx.lineTo(x, height);
+    ctx.stroke();
+  }
+  for (let y = 0; y < height; y += 42) {
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(width, y);
+    ctx.stroke();
+  }
+
+  for (let i = 0; i < 12; i += 1) {
+    const y = height * (0.18 + i * 0.065);
+    ctx.beginPath();
+    for (let x = -20; x <= width + 20; x += 18) {
+      const wave = Math.sin(x * 0.012 + i * 0.8 + time * 0.001) * (12 + i * 1.3);
       if (x === -20) ctx.moveTo(x, y + wave);
       else ctx.lineTo(x, y + wave);
     }
-    ctx.strokeStyle = i % 3 === 0 ? "rgba(185, 76, 40, 0.16)" : "rgba(16, 63, 66, 0.12)";
+    ctx.strokeStyle = i % 2 === 0 ? "rgba(69, 167, 214, 0.22)" : "rgba(232, 184, 95, 0.18)";
     ctx.stroke();
   }
 
   particles.forEach((particle) => {
     const orbit = time * particle.speed + particle.phase;
-    const x = width * (0.5 + Math.cos(orbit) * particle.radius * 2.9);
-    const y = height * (0.48 + Math.sin(orbit * 1.7) * particle.radius * 1.5);
+    const x = width * (0.62 + Math.cos(orbit) * particle.radius);
+    const y = height * (0.45 + Math.sin(orbit * 1.55) * particle.radius);
     ctx.beginPath();
-    ctx.arc(x, y, 2.1, 0, Math.PI * 2);
-    ctx.fillStyle = "rgba(17, 19, 21, 0.3)";
+    ctx.arc(x, y, 1.9, 0, Math.PI * 2);
+    ctx.fillStyle = "rgba(236, 245, 255, 0.55)";
     ctx.fill();
   });
 
@@ -285,7 +171,5 @@ window.addEventListener("resize", resizeCanvas);
 window.addEventListener("scroll", setHeaderState, { passive: true });
 resizeCanvas();
 setHeaderState();
-resetEntryForm();
-saveEntries();
-renderEntries();
+loadResearchLog();
 requestAnimationFrame(drawField);

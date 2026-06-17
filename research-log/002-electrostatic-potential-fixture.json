@@ -1,0 +1,23 @@
+{
+  "number": 2,
+  "date": "2026-06-17",
+  "status": "published",
+  "visibility": "public",
+  "title": "Electrostatic Potential Gradient Fixture",
+  "summary": "Design note for a small electrode fixture intended to map relative potential around simple conductor and dielectric arrangements.",
+  "tags": ["potential", "electrostatics", "dielectric", "fixture"],
+  "objective": "Create a repeatable fixture for observing how electrode geometry, spacing, and dielectric placement alter measured potential.",
+  "apparatus": "Insulated base, interchangeable electrode plates, dielectric samples, high-impedance voltmeter, fixed measurement grid, discharge lead, and safety spacing marks.",
+  "observations": "The fixture must prioritize repeatable probe position and a clear discharge procedure. Public results should include geometry drawings before numerical readings are compared.",
+  "next": "Fabricate the first electrode plate assembly and publish the measurement grid before energizing the setup.",
+  "measurements": [
+    {
+      "label": "Primary variable",
+      "value": "Electrode geometry"
+    },
+    {
+      "label": "Recorded conditions",
+      "value": "Applied voltage, probe position, dielectric material, humidity if available"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "number": 3,
+  "date": "YYYY-MM-DD",
+  "status": "published",
+  "visibility": "public",
+  "title": "Experiment Title",
+  "summary": "One or two sentences describing the public result or purpose of this experiment.",
+  "tags": ["potential", "resonance", "measurement"],
+  "objective": "What question is this experiment testing?",
+  "apparatus": "List the circuit, geometry, materials, instruments, and safety constraints.",
+  "observations": "Write the public observations, measurements, anomalies, and limits of confidence.",
+  "next": "What should be tested, corrected, or repeated next?",
+  "measurements": [
+    {
+      "label": "Primary variable",
+      "value": "What you changed"
+    },
+    {
+      "label": "Controlled variables",
+      "value": "What stayed fixed"
+    }
+  ]
+}
