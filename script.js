@@ -5,6 +5,25 @@ const navLinks = document.querySelectorAll(".nav a");
 const canvas = document.querySelector("[data-field-canvas]");
 const ctx = canvas.getContext("2d");
 const entryList = document.querySelector("[data-entry-list]");
+const entrySearch = document.querySelector("[data-entry-search]");
+const entryCount = document.querySelector("[data-entry-count]");
+const pagination = document.querySelector("[data-entry-pagination]");
+const pageNumbers = document.querySelector("[data-page-numbers]");
+const previousPageButton = document.querySelector("[data-page-previous]");
+const nextPageButton = document.querySelector("[data-page-next]");
+const imageViewer = document.querySelector("[data-image-viewer]");
+const viewerImage = document.querySelector("[data-viewer-image]");
+const viewerCaption = document.querySelector("[data-viewer-caption]");
+const viewerClose = document.querySelector("[data-viewer-close]");
+const viewerPrevious = document.querySelector("[data-viewer-previous]");
+const viewerNext = document.querySelector("[data-viewer-next]");
+
+const entriesPerPage = 3;
+let allEntries = [];
+let filteredEntries = [];
+let currentPage = 1;
+let activeImages = [];
+let activeImageIndex = 0;
 
 navToggle.addEventListener("click", () => {
   body.classList.toggle("nav-open");
@@ -28,18 +47,53 @@ function formatExperimentNumber(number) {
   return `#${String(number).padStart(3, "0")}`;
 }
 
-function renderEntries(entries) {
-  if (!entries.length) {
-    entryList.innerHTML = '<p class="empty-log">No public research entries have been published yet.</p>';
+function normalizeImages(images = []) {
+  return images.map((image) =>
+    typeof image === "string"
+      ? { src: image, alt: "Research apparatus image", caption: "Research apparatus" }
+      : image
+  );
+}
+
+function renderPagination() {
+  const pageCount = Math.ceil(filteredEntries.length / entriesPerPage);
+  pagination.hidden = pageCount <= 1;
+  previousPageButton.disabled = currentPage === 1;
+  nextPageButton.disabled = currentPage === pageCount;
+  pageNumbers.innerHTML = Array.from({ length: pageCount }, (_, index) => {
+    const page = index + 1;
+    return `<button type="button" class="page-number" data-page="${page}" ${page === currentPage ? 'aria-current="page"' : ""} aria-label="Research log page ${page}">${page}</button>`;
+  }).join("");
+}
+
+function renderEntries() {
+  if (!filteredEntries.length) {
+    entryList.innerHTML = `<p class="empty-log">${allEntries.length ? "No entries match this search." : "No public research entries have been published yet."}</p>`;
+    entryCount.textContent = allEntries.length ? "0 matching entries" : "0 published entries";
+    pagination.hidden = true;
     return;
   }
 
-  const sortedEntries = entries.sort((a, b) => new Date(b.date) - new Date(a.date) || Number(b.number) - Number(a.number));
-  entryList.innerHTML = sortedEntries
+  const pageCount = Math.ceil(filteredEntries.length / entriesPerPage);
+  currentPage = Math.min(currentPage, pageCount);
+  const firstIndex = (currentPage - 1) * entriesPerPage;
+  const visibleEntries = filteredEntries.slice(firstIndex, firstIndex + entriesPerPage);
+  entryCount.textContent = `${firstIndex + 1}-${Math.min(firstIndex + entriesPerPage, filteredEntries.length)} of ${filteredEntries.length} ${filteredEntries.length === 1 ? "entry" : "entries"}`;
+
+  entryList.innerHTML = visibleEntries
     .map((entry) => {
       const tags = (entry.tags || []).map((tag) => `<span class="tag-pill">${escapeHtml(tag)}</span>`).join("");
       const measurements = (entry.measurements || [])
         .map((item) => `<li><strong>${escapeHtml(item.label)}:</strong> ${escapeHtml(item.value)}</li>`)
+        .join("");
+      const images = normalizeImages(entry.images);
+      const gallery = images
+        .map((image, imageIndex) => `
+          <button class="entry-image-button" type="button" data-entry-number="${escapeHtml(entry.number)}" data-image-index="${imageIndex}" aria-label="View ${escapeHtml(image.alt || entry.title)}">
+            <img src="${escapeHtml(image.src)}" alt="${escapeHtml(image.alt || "Research apparatus image")}" loading="lazy" />
+            <span>${escapeHtml(image.caption || `Figure ${imageIndex + 1}`)}</span>
+          </button>
+        `)
         .join("");
 
       return `
@@ -53,6 +107,7 @@ function renderEntries(entries) {
             <h3>${escapeHtml(entry.title)}</h3>
             <p class="entry-summary">${escapeHtml(entry.summary)}</p>
             <div class="tag-list">${tags}</div>
+            ${gallery ? `<div class="entry-gallery">${gallery}</div>` : ""}
             <div class="entry-grid">
               <div>
                 <strong>Objective</strong>
@@ -77,6 +132,61 @@ function renderEntries(entries) {
       `;
     })
     .join("");
+
+  renderPagination();
+}
+
+function filterEntries() {
+  const query = entrySearch.value.trim().toLowerCase();
+  filteredEntries = query
+    ? allEntries.filter((entry) => {
+        const searchable = [
+          entry.number,
+          entry.date,
+          entry.title,
+          entry.summary,
+          entry.objective,
+          entry.apparatus,
+          entry.observations,
+          entry.next,
+          ...(entry.tags || []),
+          ...(entry.measurements || []).flatMap((item) => [item.label, item.value]),
+        ].join(" ").toLowerCase();
+        return searchable.includes(query);
+      })
+    : [...allEntries];
+  currentPage = 1;
+  renderEntries();
+}
+
+function setPage(page) {
+  const pageCount = Math.ceil(filteredEntries.length / entriesPerPage);
+  currentPage = Math.max(1, Math.min(page, pageCount));
+  renderEntries();
+  document.querySelector("#log").scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function updateViewer() {
+  const image = activeImages[activeImageIndex];
+  viewerImage.src = image.src;
+  viewerImage.alt = image.alt || "Research apparatus image";
+  viewerCaption.textContent = `${image.caption || `Figure ${activeImageIndex + 1}`} / ${activeImageIndex + 1} of ${activeImages.length}`;
+  viewerPrevious.disabled = activeImages.length < 2;
+  viewerNext.disabled = activeImages.length < 2;
+}
+
+function openViewer(entryNumber, imageIndex) {
+  const entry = allEntries.find((item) => String(item.number) === String(entryNumber));
+  activeImages = normalizeImages(entry?.images);
+  if (!activeImages.length) return;
+  activeImageIndex = Number(imageIndex) || 0;
+  updateViewer();
+  imageViewer.showModal();
+}
+
+function moveViewer(direction) {
+  activeImageIndex = (activeImageIndex + direction + activeImages.length) % activeImages.length;
+  updateViewer();
 }
 
 async function loadResearchLog() {
@@ -91,7 +201,11 @@ async function loadResearchLog() {
         return response.json();
       })
     );
-    renderEntries(entryResponses.filter((entry) => entry.visibility !== "private"));
+    allEntries = entryResponses
+      .filter((entry) => entry.visibility !== "private")
+      .sort((a, b) => new Date(b.date) - new Date(a.date) || Number(b.number) - Number(a.number));
+    filteredEntries = [...allEntries];
+    renderEntries();
   } catch (error) {
     entryList.innerHTML = `
       <p class="empty-log">
@@ -101,6 +215,24 @@ async function loadResearchLog() {
     `;
   }
 }
+
+entrySearch.addEventListener("input", filterEntries);
+entryList.addEventListener("click", (event) => {
+  const button = event.target.closest("[data-image-index]");
+  if (button) openViewer(button.dataset.entryNumber, button.dataset.imageIndex);
+});
+pageNumbers.addEventListener("click", (event) => {
+  const button = event.target.closest("[data-page]");
+  if (button) setPage(Number(button.dataset.page));
+});
+previousPageButton.addEventListener("click", () => setPage(currentPage - 1));
+nextPageButton.addEventListener("click", () => setPage(currentPage + 1));
+viewerClose.addEventListener("click", () => imageViewer.close());
+viewerPrevious.addEventListener("click", () => moveViewer(-1));
+viewerNext.addEventListener("click", () => moveViewer(1));
+imageViewer.addEventListener("click", (event) => {
+  if (event.target === imageViewer) imageViewer.close();
+});
 
 const particles = Array.from({ length: 42 }, (_, index) => ({
   phase: index * 0.51,

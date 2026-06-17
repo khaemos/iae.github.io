@@ -9,8 +9,9 @@ This folder contains the public experiment entries shown on the website.
 3. Rename the copy with the next experiment number, for example:
    `003-resonant-terminal-test.json`
 4. Fill in the public-safe summary, objective, apparatus, observations, next test, tags, and measurements.
-5. Add the new file name to `manifest.json`.
-6. Upload the updated `research-log` folder with the website files.
+5. Put experiment images in `assets`, then list each one in the entry's `images` array. Use a web path such as `assets/003-apparatus.jpg`.
+6. Add the new file name to `manifest.json`.
+7. Upload the updated `research-log` and `assets` folders with the website files.
 
 ## Keep Private Notes Private
 

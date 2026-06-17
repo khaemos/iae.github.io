@@ -6,6 +6,13 @@
   "title": "Experiment Title",
   "summary": "One or two sentences describing the public result or purpose of this experiment.",
   "tags": ["potential", "resonance", "measurement"],
+  "images": [
+    {
+      "src": "assets/your-experiment-image.jpg",
+      "alt": "Describe what is visible in the image",
+      "caption": "Short figure caption"
+    }
+  ],
   "objective": "What question is this experiment testing?",
   "apparatus": "List the circuit, geometry, materials, instruments, and safety constraints.",
   "observations": "Write the public observations, measurements, anomalies, and limits of confidence.",

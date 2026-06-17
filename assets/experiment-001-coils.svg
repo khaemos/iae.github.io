@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 600" role="img" aria-labelledby="title desc">
+  <title id="title">Coupled coil baseline apparatus</title>
+  <desc id="desc">Technical diagram of two aligned air-core coils on a measurement rail.</desc>
+  <rect width="960" height="600" fill="#090d12"/>
+  <g stroke="#17232d"><path d="M0 75h960M0 150h960M0 225h960M0 300h960M0 375h960M0 450h960M0 525h960"/><path d="M80 0v600M160 0v600M240 0v600M320 0v600M400 0v600M480 0v600M560 0v600M640 0v600M720 0v600M800 0v600M880 0v600"/></g>
+  <path d="M102 472h756" stroke="#9aa8b4" stroke-width="8"/>
+  <g fill="none" stroke="#d89245" stroke-width="8">
+    <ellipse cx="326" cy="310" rx="62" ry="152"/><ellipse cx="342" cy="310" rx="62" ry="152"/><ellipse cx="358" cy="310" rx="62" ry="152"/><ellipse cx="374" cy="310" rx="62" ry="152"/>
+    <ellipse cx="586" cy="310" rx="62" ry="152"/><ellipse cx="602" cy="310" rx="62" ry="152"/><ellipse cx="618" cy="310" rx="62" ry="152"/><ellipse cx="634" cy="310" rx="62" ry="152"/>
+  </g>
+  <g fill="none" stroke="#45a7d6" opacity=".75">
+    <path d="M386 210c78-74 110-74 188 0M386 252c78-44 110-44 188 0M386 368c78 44 110 44 188 0M386 410c78 74 110 74 188 0"/>
+  </g>
+  <path d="M424 516h128M424 506v20M552 506v20" stroke="#7fd7ff"/>
+  <g fill="#eff5f8" font-family="monospace" font-size="18"><text x="52" y="48">EXP 001 / COUPLED COIL BASELINE</text><text x="436" y="552">SPACING d</text></g>
+  <g fill="#9aa8b4" font-family="monospace" font-size="14"><text x="264" y="114">PRIMARY</text><text x="578" y="114">SECONDARY</text><text x="52" y="570">AXIAL ALIGNMENT / AIR CORE / VARIABLE LOAD</text></g>
+</svg>

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 600" role="img" aria-labelledby="title desc">
+  <title id="title">Electrostatic potential gradient fixture</title>
+  <desc id="desc">Technical plan view of two electrode plates and a potential measurement grid.</desc>
+  <rect width="960" height="600" fill="#090d12"/>
+  <g stroke="#17232d"><path d="M0 75h960M0 150h960M0 225h960M0 300h960M0 375h960M0 450h960M0 525h960"/><path d="M80 0v600M160 0v600M240 0v600M320 0v600M400 0v600M480 0v600M560 0v600M640 0v600M720 0v600M800 0v600M880 0v600"/></g>
+  <rect x="178" y="158" width="64" height="300" fill="#d89245"/><rect x="718" y="158" width="64" height="300" fill="#45a7d6"/>
+  <g fill="none" stroke="#7fd7ff" opacity=".6">
+    <path d="M242 178C420 90 540 90 718 178M242 226C420 164 540 164 718 226M242 274C420 238 540 238 718 274M242 322C420 358 540 358 718 322M242 370C420 432 540 432 718 370M242 418C420 506 540 506 718 418"/>
+  </g>
+  <g fill="#eff5f8" font-family="monospace"><text x="52" y="48" font-size="18">EXP 002 / POTENTIAL GRADIENT FIXTURE</text><text x="198" y="142" font-size="24">+</text><text x="738" y="142" font-size="24">-</text></g>
+  <g fill="#9aa8b4" font-family="monospace" font-size="14"><text x="52" y="570">PLAN VIEW / INTERCHANGEABLE ELECTRODES / FIXED PROBE GRID</text><text x="418" y="304">DIELECTRIC / TEST REGION</text></g>
+  <g fill="#d89245"><circle cx="360" cy="226" r="5"/><circle cx="440" cy="274" r="5"/><circle cx="520" cy="322" r="5"/><circle cx="600" cy="370" r="5"/></g>
+</svg>

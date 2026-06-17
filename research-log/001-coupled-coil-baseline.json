@@ -6,6 +6,13 @@
   "title": "Coupled Coil Baseline",
   "summary": "Initial protocol for measuring transfer behavior between two air-core coils under controlled spacing, alignment, frequency, and load conditions.",
   "tags": ["induction", "coupling", "coil", "baseline"],
+  "images": [
+    {
+      "src": "assets/experiment-001-coils.svg",
+      "alt": "Technical diagram of two aligned air-core coils on a measurement rail",
+      "caption": "Apparatus geometry / axial coil baseline"
+    }
+  ],
   "objective": "Establish a repeatable induction bench and define the baseline variables that must be controlled before more complex resonant tests.",
   "apparatus": "Primary and secondary air-core coils mounted on an insulated rail, function generator, oscilloscope, load resistors, ruler fixture, and thermal observation.",
   "observations": "The first public record defines the measurement geometry rather than claiming performance. Coil distance, angular alignment, drive frequency, and load resistance will be recorded at each interval.",

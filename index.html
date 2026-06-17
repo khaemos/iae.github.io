@@ -27,6 +27,7 @@
       </a>
       <nav class="nav" aria-label="Primary navigation">
         <a href="#mission">Mission</a>
+        <a href="#scientists">Scientists</a>
         <a href="#log">Research Log</a>
         <a href="#projects">Projects</a>
         <a href="#publications">Publications</a>
@@ -84,6 +85,44 @@
         </div>
       </section>
 
+      <section class="section scientists-band" id="scientists" aria-labelledby="scientists-title">
+        <div class="section-heading split">
+          <div>
+            <p class="eyebrow">Scientists</p>
+            <h2 id="scientists-title">The people behind the apparatus.</h2>
+          </div>
+          <p>
+            IAE brings engineering practice, physical inquiry, and careful documentation
+            into one experimental discipline.
+          </p>
+        </div>
+        <div class="scientist-list">
+          <article class="scientist-profile">
+            <figure class="scientist-portrait">
+              <img src="assets/khae-mostajo-profile.svg" alt="Technical profile plate for Khae Mostajo" />
+              <figcaption>IAE / Founding scientist / KM-01</figcaption>
+            </figure>
+            <div class="scientist-copy">
+              <p class="mono-label">Founding Scientist</p>
+              <h3>Khae Mostajo</h3>
+              <p class="scientist-role">Electromechanical Engineer</p>
+              <p>
+                Khae Mostajo is an electromechanical engineer with multidisciplinary
+                experience spanning electrical systems, mechanical design, prototyping,
+                instrumentation, and experimental problem solving. His work at IAE focuses
+                on translating electromagnetic phenomena into measurable apparatus and
+                practical engineering methods.
+              </p>
+              <dl class="scientist-fields">
+                <div><dt>Field</dt><dd>Applied electrodynamics</dd></div>
+                <div><dt>Practice</dt><dd>Apparatus, measurement, fabrication</dd></div>
+                <div><dt>Focus</dt><dd>Potential, induction, resonance</dd></div>
+              </dl>
+            </div>
+          </article>
+        </div>
+      </section>
+
       <section class="section" id="log" aria-labelledby="log-title">
         <div class="section-heading split">
           <div>
@@ -109,9 +148,28 @@
           <a class="text-link" href="research-log/README.md">View entry instructions</a>
         </div>
 
+        <div class="log-tools">
+          <label class="search-field" for="entry-search">
+            <span>Search entries</span>
+            <input
+              id="entry-search"
+              type="search"
+              placeholder="Search title, tag, apparatus, observation..."
+              autocomplete="off"
+              data-entry-search
+            />
+          </label>
+          <p class="log-count" data-entry-count aria-live="polite"></p>
+        </div>
+
         <div class="timeline" data-entry-list>
           <p class="empty-log">Loading research log...</p>
         </div>
+        <nav class="entry-pagination" data-entry-pagination aria-label="Research log pages" hidden>
+          <button type="button" class="page-button" data-page-previous aria-label="Previous research entries">Previous</button>
+          <div class="page-numbers" data-page-numbers></div>
+          <button type="button" class="page-button" data-page-next aria-label="Next research entries">Next</button>
+        </nav>
       </section>
 
       <section class="section projects-band" id="projects" aria-labelledby="projects-title">
@@ -223,6 +281,16 @@
       <p>Institute of Applied Electrodynamics</p>
       <p>Potential. Field. Apparatus. Record.</p>
     </footer>
+
+    <dialog class="image-viewer" data-image-viewer aria-labelledby="viewer-caption">
+      <button class="viewer-close" type="button" data-viewer-close aria-label="Close image viewer">&times;</button>
+      <button class="viewer-nav viewer-previous" type="button" data-viewer-previous aria-label="Previous image">Previous</button>
+      <figure>
+        <img src="" alt="" data-viewer-image />
+        <figcaption id="viewer-caption" data-viewer-caption></figcaption>
+      </figure>
+      <button class="viewer-nav viewer-next" type="button" data-viewer-next aria-label="Next image">Next</button>
+    </dialog>
 
     <script src="script.js"></script>
   </body>
