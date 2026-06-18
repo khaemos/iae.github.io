@@ -15,6 +15,11 @@
       "src": "assets/whatsapp-image-2026-06-17-at-11-09-56-pm.jpeg",
       "alt": "Oscilloscope meassurement",
       "caption": ""
+    },
+    {
+      "src": "assets/60hz.jpeg",
+      "alt": "10 uS capture",
+      "caption": ""
     }
   ],
   "objective": "The experiment aims to establish a baseline for studying signal reception, diode-based detection, resonance, and standing-wave phenomena using simple conductive structures.",
