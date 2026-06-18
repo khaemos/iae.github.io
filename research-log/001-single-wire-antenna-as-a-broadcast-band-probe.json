@@ -1,0 +1,34 @@
+{
+  "number": 1,
+  "date": "2026-06-17",
+  "status": "in progress",
+  "visibility": "private",
+  "title": "Single-wire antenna as a broadcast band probe",
+  "summary": "A 10.45-meter insulated 14 AWG copper conductor was deployed as a single-wire receiving antenna for the detection and analysis of ambient electromagnetic activity. \n\nThe antenna serves as a broadband field probe connected directly to measurement instrumentation and RF detector circuits to observe induced voltages from local and distant radio transmitters.\n\nAt the lowest AM frequencies, the antenna is electrically short relative to the wavelength (545 m at 550 kHz), corresponding to approximately 1/52 of a wavelength. Despite this, the conductor is expected to develop measurable RF voltages through coupling with the electric field component of broadcast transmissions.",
+  "tags": [
+    "rf propagation",
+    "induction",
+    "resonance"
+  ],
+  "images": [
+    {
+      "src": "assets/whatsapp-image-2026-06-17-at-11-09-56-pm.jpeg",
+      "alt": "Oscilloscope meassurement",
+      "caption": ""
+    }
+  ],
+  "objective": "The experiment aims to establish a baseline for studying signal reception, diode-based detection, resonance, and standing-wave phenomena using simple conductive structures.",
+  "apparatus": "Single wire 14 AWG insulated antenna, handheld 10 Mhz oscilloscope",
+  "observations": "Oscilloscope measurements revealed strong coupling to 60 Hz mains fields as well as multiple RF components extending into the MHz region. \n\nThe observations confirm that the antenna functions effectively as a broadband electric-field probe. However, due to the absence of frequency-selective circuitry, the origin of individual RF components could not be conclusively identified as broadcast stations, switching-power-supply emissions, or resonant environmental signals. \n\nThe 5 turns at the top end act like a small coil/inductor, not just “extra length.” The wire may now behave like a loaded antenna, with a natural resonance somewhere in the kHz–MHz range. That could explain the bursty MHz waveforms and stronger strange peaks.",
+  "next": "Implementation of a parallel LC tuning network to isolate and characterize specific frequencies within the broadcast band.",
+  "measurements": [
+    {
+      "label": "Antenna length",
+      "value": "10.45 m"
+    },
+    {
+      "label": "Oscilloscope bandwidth",
+      "value": "10 Mhz"
+    }
+  ]
+}
