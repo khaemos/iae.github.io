@@ -209,7 +209,7 @@ h2 {
 
 h1 {
   color: var(--white);
-  font-size: clamp(3.1rem, 7.7vw, 7.2rem);
+  font-size: clamp(3.1rem, 3.5vw, 7.2rem);
   line-height: 0.9;
   margin-bottom: 28px;
   max-width: 980px;
