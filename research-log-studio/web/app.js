@@ -114,12 +114,27 @@ function renderArchive() {
   const entries = app.state.entries.filter((entry) => archiveMatches(entry, query, visibility));
   $("[data-archive-count]").textContent = `${entries.length} ${entries.length === 1 ? "entry" : "entries"}`;
   $("[data-archive-list]").innerHTML = entries.length
-    ? entries.map((entry) => `
+    ? entries.map((entry) => {
+      const measurements = (entry.measurements || []).map((item) => `
+        <div><dt>${escapeHtml(item.label)}</dt><dd>${escapeHtml(item.value)}</dd></div>
+      `).join("");
+      const images = (entry.images || []).map((image) => {
+        const src = String(image.src || "").startsWith("assets/")
+          ? `/data/assets/${encodeURIComponent(String(image.src).split("/").pop())}`
+          : image.src;
+        return `
+          <figure>
+            <img src="${escapeHtml(src)}" alt="${escapeHtml(image.alt || "Experiment image")}" loading="lazy" />
+            <figcaption>${escapeHtml(image.caption || image.alt || "Experimental record")}</figcaption>
+          </figure>
+        `;
+      }).join("");
+      return `
       <article class="archive-card">
         <span class="archive-number">${formatNumber(entry.number)}</span>
         <div class="archive-main">
           <h2>${escapeHtml(entry.title)}</h2>
-          <p>${escapeHtml(entry.summary)}</p>
+          <p class="entry-prose">${escapeHtml(entry.summary)}</p>
           <div class="tag-row">${(entry.tags || []).map((tag) => `<span class="tag">${escapeHtml(tag)}</span>`).join("")}</div>
         </div>
         <div class="archive-meta">
@@ -129,12 +144,24 @@ function renderArchive() {
           <span>${(entry.images || []).length} visual records</span>
         </div>
         <div class="archive-actions">
+          <button type="button" data-toggle-entry="${escapeHtml(entry.file)}" aria-expanded="false">Read full entry</button>
           <button type="button" data-edit-file="${escapeHtml(entry.file)}">Edit record</button>
           <button type="button" data-duplicate-file="${escapeHtml(entry.file)}">Duplicate</button>
           <button type="button" data-delete-file="${escapeHtml(entry.file)}">Delete</button>
         </div>
+        <section class="archive-reader" data-entry-reader="${escapeHtml(entry.file)}" hidden aria-label="Complete record for ${escapeHtml(entry.title)}">
+          ${images ? `<div class="reader-gallery">${images}</div>` : ""}
+          <div class="reader-grid">
+            <div class="reader-section"><span>Objective</span><p class="entry-prose">${escapeHtml(entry.objective || "Not recorded.")}</p></div>
+            <div class="reader-section"><span>Apparatus</span><p class="entry-prose">${escapeHtml(entry.apparatus || "Not recorded.")}</p></div>
+            <div class="reader-section"><span>Observations</span><p class="entry-prose">${escapeHtml(entry.observations || "Not recorded.")}</p></div>
+            <div class="reader-section"><span>Next test</span><p class="entry-prose">${escapeHtml(entry.next || "Not recorded.")}</p></div>
+          </div>
+          ${measurements ? `<dl class="reader-measurements"><div class="measurement-heading">Measurements</div>${measurements}</dl>` : ""}
+        </section>
       </article>
-    `).join("")
+    `;
+    }).join("")
     : '<p class="empty-state">No records match this field condition.</p>';
 }
 
@@ -314,6 +341,13 @@ document.addEventListener("click", (event) => {
   if (target.matches("[data-edit-file]")) editEntry(target.dataset.editFile);
   if (target.matches("[data-duplicate-file]")) editEntry(target.dataset.duplicateFile, true);
   if (target.matches("[data-delete-file]")) requestDelete(target.dataset.deleteFile);
+  if (target.matches("[data-toggle-entry]")) {
+    const reader = document.querySelector(`[data-entry-reader="${CSS.escape(target.dataset.toggleEntry)}"]`);
+    const isOpen = !reader.hidden;
+    reader.hidden = isOpen;
+    target.setAttribute("aria-expanded", String(!isOpen));
+    target.textContent = isOpen ? "Read full entry" : "Close full entry";
+  }
   if (target.matches("[data-delete-entry]")) requestDelete();
   if (target.matches("[data-save-entry]")) saveEntry();
   if (target.matches("[data-copy-json]")) copyJson();
