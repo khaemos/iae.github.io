@@ -52,3 +52,35 @@ document.addEventListener("click",event=>{
   if(button.matches("[data-site-copy-colpitts]")&&siteColpittsSummary){navigator.clipboard.writeText(siteColpittsSummary).then(()=>{const original=button.textContent;button.textContent="Calculation copied";setTimeout(()=>button.textContent=original,1600)})}
 });
 calculateSiteColpitts();
+// Air-core inductance calculator
+const airCoreForm=document.querySelector("[data-air-core-form]");
+let airCoreSummary="";
+function airMetric(value,kind){
+  if(!Number.isFinite(value))return "-";
+  const sets={inductance:[[1,"H"],[1e-3,"mH"],[1e-6,"uH"],[1e-9,"nH"]],length:[[1,"m"],[1e-2,"cm"],[1e-3,"mm"]],area:[[1,"m2"],[1e-4,"cm2"],[1e-6,"mm2"]],density:[[1e3,"turns/mm"],[1e2,"turns/cm"],[1,"turns/m"]]};
+  const set=sets[kind],unit=set.find(item=>Math.abs(value)>=item[0])||set[set.length-1];
+  return (value/unit[0]).toLocaleString(undefined,{maximumSignificantDigits:6})+" "+unit[1];
+}
+function calculateAirCore(){
+  if(!airCoreForm)return;
+  const d=new FormData(airCoreForm),diameter=+d.get("diameter")*+d.get("diameterUnit"),length=+d.get("length")*+d.get("lengthUnit"),turns=+d.get("turns");
+  const valid=[diameter,length,turns].every(value=>Number.isFinite(value)&&value>0);
+  document.querySelector("[data-air-core-warning]").hidden=valid;
+  if(!valid){document.querySelector("[data-air-primary-value]").textContent="-";document.querySelectorAll("[data-air-result]").forEach(node=>node.textContent="-");airCoreSummary="";return}
+  const diameterIn=diameter/0.0254,lengthIn=length/0.0254;
+  const wheelerUH=(diameterIn*diameterIn*turns*turns)/(18*diameterIn+40*lengthIn),wheelerH=wheelerUH*1e-6;
+  const mu0=4*Math.PI*1e-7,area=Math.PI*Math.pow(diameter/2,2),solenoidH=mu0*turns*turns*area/length;
+  const density=turns/length,ratio=length/diameter,wireLength=Math.PI*diameter*turns;
+  document.querySelector("[data-air-primary-value]").textContent=airMetric(wheelerH,"inductance");
+  const put=(key,value)=>document.querySelector('[data-air-result="'+key+'"]').textContent=value;
+  put("solenoid",airMetric(solenoidH,"inductance"));put("area",airMetric(area,"area"));put("density",airMetric(density,"density"));put("ratio",ratio.toLocaleString(undefined,{maximumSignificantDigits:6}));put("wire",airMetric(wireLength,"length"));
+  airCoreSummary=["IAE / Air-Core Inductance Calculation","Coil diameter: "+airMetric(diameter,"length"),"Winding length: "+airMetric(length,"length"),"Number of turns: "+turns.toLocaleString(),"Wheeler inductance: "+airMetric(wheelerH,"inductance"),"Ideal solenoid comparison: "+airMetric(solenoidH,"inductance"),"Cross-sectional area: "+airMetric(area,"area"),"Turn density: "+airMetric(density,"density"),"Length / diameter ratio: "+ratio.toPrecision(6),"Approximate conductor length: "+airMetric(wireLength,"length")].join("\n");
+}
+airCoreForm?.addEventListener("input",calculateAirCore);
+airCoreForm?.addEventListener("change",calculateAirCore);
+document.addEventListener("click",event=>{
+  const button=event.target.closest("button");if(!button)return;
+  if(button.matches("[data-air-core-reset]")){airCoreForm.reset();calculateAirCore()}
+  if(button.matches("[data-copy-air-core]")&&airCoreSummary){navigator.clipboard.writeText(airCoreSummary).then(()=>{const original=button.textContent;button.textContent="Calculation copied";setTimeout(()=>button.textContent=original,1600)})}
+});
+calculateAirCore();

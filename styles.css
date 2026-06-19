@@ -1152,3 +1152,6 @@ textarea {
   .iae-page-heading>p{margin-top:14px}
   .iae-tool-heading .iae-back-command{margin-bottom:26px}
 }
+.iae-model-badge{background:#eef5f74f;border:1px solid var(--line);color:var(--ink);font:700 11px/1 "IBM Plex Mono",monospace;padding:10px 12px;text-transform:uppercase}
+.iae-unit-static{align-items:center;background:#434343;border:1px solid var(--line);border-left:0;color:#fff;display:flex;font:600 12px/1 "IBM Plex Mono",monospace;justify-content:center;padding:12px}
+.iae-tool-catalog{gap:22px}
