@@ -333,6 +333,24 @@ async function copyJson() {
   }
 }
 
+async function buildWebsiteBundle() {
+  setSaveState("Building public website bundle...");
+  try {
+    const result = await api("/api/build-bundle", { method: "POST", body: "{}" });
+    if (result.entries === 0) {
+      toast("The bundle is empty. Set at least one entry's visibility to Public, save it, then build again.", "error");
+    } else if (result.missingAssets.length) {
+      toast(`Bundle created, but ${result.missingAssets.length} referenced image file(s) are missing.`, "error");
+    } else {
+      toast(`Website bundle ready: ${result.entries} public ${result.entries === 1 ? "entry" : "entries"}, ${result.assets} ${result.assets === 1 ? "image" : "images"}.`);
+    }
+    setSaveState("Website bundle synchronized");
+  } catch (error) {
+    setSaveState("Website bundle not created");
+    toast(error.message, "error");
+  }
+}
+
 document.addEventListener("click", (event) => {
   const target = event.target.closest("button");
   if (!target) return;
@@ -359,6 +377,7 @@ document.addEventListener("click", (event) => {
   if (target.matches("[data-confirm-delete]")) confirmDelete();
   if (target.matches("[data-menu]")) document.body.classList.toggle("menu-open");
   if (target.matches("[data-open-folder]")) api("/api/open-folder", { method: "POST", body: "{}" }).catch((error) => toast(error.message, "error"));
+  if (target.matches("[data-build-bundle]")) buildWebsiteBundle();
 });
 
 form.addEventListener("input", updatePreview);

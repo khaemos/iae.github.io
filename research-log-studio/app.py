@@ -18,6 +18,7 @@ from urllib.parse import parse_qs, unquote, urlparse
 
 APP_ROOT = Path(__file__).resolve().parent
 WEB_ROOT = APP_ROOT / "web"
+SITE_RUNTIME_ROOT = APP_ROOT / "site-runtime"
 SITE_ROOT = APP_ROOT.parent / "natural-field-institute"
 HOST = "127.0.0.1"
 PORT = 8788
@@ -39,6 +40,8 @@ DATA_ROOT = desktop_directory() / "IAE Research Log"
 LOG_ROOT = DATA_ROOT / "research-log"
 ASSET_ROOT = DATA_ROOT / "assets"
 MANIFEST_PATH = LOG_ROOT / "manifest.json"
+BUNDLE_ROOT = DATA_ROOT / "website-upload"
+BUNDLE_ZIP = DATA_ROOT / "iae-website-upload.zip"
 
 
 def json_write(path: Path, data: object) -> None:
@@ -195,7 +198,68 @@ def app_state() -> dict:
         "dataRoot": str(DATA_ROOT),
         "logRoot": str(LOG_ROOT),
         "assetRoot": str(ASSET_ROOT),
+        "bundleRoot": str(BUNDLE_ROOT),
         "nextNumber": max((int(item.get("number", 0)) for item in entries), default=0) + 1,
+    }
+
+
+def build_website_bundle() -> dict:
+    if BUNDLE_ROOT.exists():
+        shutil.rmtree(BUNDLE_ROOT)
+    bundle_log = BUNDLE_ROOT / "research-log"
+    bundle_assets = BUNDLE_ROOT / "assets"
+    bundle_log.mkdir(parents=True, exist_ok=True)
+    bundle_assets.mkdir(parents=True, exist_ok=True)
+
+    runtime_files = 0
+    if SITE_RUNTIME_ROOT.exists():
+        for runtime_file in SITE_RUNTIME_ROOT.iterdir():
+            if runtime_file.is_file():
+                shutil.copy2(runtime_file, BUNDLE_ROOT / runtime_file.name)
+                runtime_files += 1
+
+    public_records: list[tuple[int, str, dict]] = []
+    missing_assets: list[str] = []
+    copied_assets: set[str] = set()
+
+    for path in entry_files():
+        try:
+            entry = read_entry(path)
+        except (OSError, json.JSONDecodeError):
+            continue
+        if str(entry.get("visibility", "")).lower() != "public":
+            continue
+        public_records.append((int(entry.get("number", 0)), path.name, entry))
+
+    public_records.sort(key=lambda item: (item[0], item[1]))
+    manifest_entries: list[str] = []
+    for _, filename, entry in public_records:
+        json_write(bundle_log / filename, entry)
+        manifest_entries.append(filename)
+        for image in entry.get("images", []):
+            relative = str(image.get("src", ""))
+            if not relative.startswith("assets/"):
+                continue
+            asset_name = Path(relative).name
+            source = ASSET_ROOT / asset_name
+            if source.exists():
+                if asset_name not in copied_assets:
+                    shutil.copy2(source, bundle_assets / asset_name)
+                    copied_assets.add(asset_name)
+            else:
+                missing_assets.append(relative)
+
+    json_write(bundle_log / "manifest.json", {"entries": manifest_entries})
+    if BUNDLE_ZIP.exists():
+        BUNDLE_ZIP.unlink()
+    shutil.make_archive(str(BUNDLE_ZIP.with_suffix("")), "zip", root_dir=BUNDLE_ROOT)
+    return {
+        "entries": len(public_records),
+        "assets": len(copied_assets),
+        "runtimeFiles": runtime_files,
+        "missingAssets": sorted(set(missing_assets)),
+        "folder": str(BUNDLE_ROOT),
+        "zip": str(BUNDLE_ZIP),
     }
 
 
@@ -264,6 +328,10 @@ class AppHandler(BaseHTTPRequestHandler):
             elif self.path == "/api/open-folder":
                 os.startfile(DATA_ROOT)  # type: ignore[attr-defined]
                 self.send_json({"ok": True})
+            elif self.path == "/api/build-bundle":
+                result = build_website_bundle()
+                os.startfile(BUNDLE_ROOT)  # type: ignore[attr-defined]
+                self.send_json({"ok": True, **result})
             else:
                 self.send_json({"error": "Unknown endpoint"}, 404)
         except (ValueError, json.JSONDecodeError, base64.binascii.Error) as error:
@@ -313,8 +381,15 @@ class AppHandler(BaseHTTPRequestHandler):
 
 def main() -> None:
     seed_data()
-    server = ThreadingHTTPServer((HOST, PORT), AppHandler)
     url = f"http://{HOST}:{PORT}"
+    try:
+        server = ThreadingHTTPServer((HOST, PORT), AppHandler)
+    except OSError as error:
+        if getattr(error, "winerror", None) == 10048 or getattr(error, "errno", None) in {48, 98, 10048}:
+            print("IAE Research Log Studio is already active. Opening the existing session.")
+            webbrowser.open(url)
+            return
+        raise
     print(f"IAE Research Log Studio: {url}")
     print(f"Research files: {DATA_ROOT}")
     threading.Timer(0.7, lambda: webbrowser.open(url)).start()

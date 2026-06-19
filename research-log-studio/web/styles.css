@@ -73,6 +73,8 @@ p { color: var(--steel); line-height: 1.65; }
 .sidebar-status small { color: var(--muted); font: .66rem "IBM Plex Mono", monospace; margin-top: 4px; }
 .sidebar-footer { padding: 0 10px; }
 .sidebar-footer p { color: #4d5962; font: .65rem/1.6 "IBM Plex Mono", monospace; text-transform: uppercase; }
+.publish-command { background: rgba(218,145,76,.08); border: 1px solid rgba(218,145,76,.38); color: var(--copper); font: 700 .62rem "IBM Plex Mono", monospace; margin-bottom: 12px; min-height: 40px; padding: 0 10px; text-transform: uppercase; width: 100%; }
+.publish-command:hover { background: rgba(218,145,76,.14); }
 .quiet-button, .text-command, .back-command { background: none; border: 0; color: var(--electric); font: 600 .68rem "IBM Plex Mono", monospace; padding: 0; text-decoration: underline; text-underline-offset: 4px; text-transform: uppercase; }
 
 .workspace { margin-left: var(--sidebar); min-height: 100vh; }
