@@ -1137,12 +1137,12 @@ textarea {
 @media(max-width:720px){.iae-page-main{padding-top:88px}}
 /* Isolated standalone page spacing */
 .iae-page-main .iae-tools-section{padding:32px clamp(20px,5vw,72px) 72px}
-.iae-page-heading{align-items:end;display:grid;gap:28px;grid-template-columns:minmax(0,1fr) minmax(260px,440px);margin:0 0 36px;max-width:1120px}
-.iae-page-heading h2{margin-bottom:0}
+.iae-page-heading{align-items:end;gap:28px;grid-template-columns:minmax(0,1fr) minmax(260px,440px);margin:0 0 36px;max-width:1120px}
+.iae-page-heading h2{margin-bottom:13px}
 .iae-page-heading>p{margin-bottom:0}
 .iae-calculator-page .iae-page-heading{display:none}
 .iae-tool-heading{display:flex;flex-direction:column;align-items:flex-start;margin:0 0 30px}
-.iae-tool-heading .iae-back-command{display:inline-flex;margin:0 0 32px}
+.iae-tool-heading .iae-back-command{display:inline-flex;margin: 24px 0 20px;}
 .iae-tool-heading .eyebrow{margin:0 0 12px}
 .iae-tool-heading h2{margin:0 0 14px}
 .iae-tool-heading>p:last-child{margin:0}
