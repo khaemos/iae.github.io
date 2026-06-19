@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Class A Transistor Amplifier Calculator | Institute of Applied Electrodynamics</title>
+    <meta name="description" content="Interactive Class A transistor amplifier bias and Q-point calculator." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,500;8..60,650&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css?v=20260619" />
+  </head>
+  <body class="iae-calculator-page">
+    <header class="site-header" data-header>
+      <a class="brand" href="index.html#home" aria-label="Institute of Applied Electrodynamics home">
+        <img src="assets/field-mark.svg" alt="" />
+        <span><strong>IAE</strong><small>Institute of Applied Electrodynamics</small></span>
+      </a>
+      <nav class="nav" aria-label="Primary navigation">
+        <a href="index.html#mission">Mission</a>
+        <a href="index.html#scientists">Scientists</a>
+        <a href="index.html#log">Research Log</a>
+        <a href="tools.html" aria-current="page">Tools</a>
+        <a href="index.html#projects">Projects</a>
+        <a href="index.html#publications">Publications</a>
+        <a href="index.html#laboratory">Laboratory</a>
+        <a href="index.html#join">Join</a>
+      </nav>
+      <button class="nav-toggle" type="button" data-nav-toggle aria-label="Open navigation"><span></span><span></span></button>
+    </header>
+    <main class="iae-page-main">
+<section class="iae-tools-section" id="class-a-tool">
+  <div class="iae-calculator-workspace">
+    <div class="iae-tool-heading">
+      <a class="iae-back-command" href="tools.html">Back to tools</a>
+      <p class="eyebrow">Instrument 001 / Amplification</p>
+      <h2>Class A Transistor Amplifier Calculator</h2>
+      <p>Calculate the DC operating point and bypassed-emitter small-signal performance of a voltage-divider biased common-emitter amplifier.</p>
+    </div>
+
+    <div class="iae-tool-layout">
+      <div class="iae-tool-reference">
+        <figure class="iae-technical-plate">
+          <figcaption><span>Fig. 01</span> Voltage-divider biased Class A stage</figcaption>
+          <a class="iae-circuit-zoom" href="assets/class-a-amplifier-hd.png" target="_blank" title="Open full-resolution amplifier circuit">
+            <img src="assets/class-a-amplifier-hd.png" alt="Class A NPN transistor amplifier with divider bias">
+          </a>
+        </figure>
+
+        <figure class="iae-technical-plate iae-formula-plate">
+          <figcaption><span>Eq. set A</span> Bias and gain formulas</figcaption>
+          <div class="iae-formula-sheet" aria-label="Class A transistor amplifier formulas">
+            <div class="iae-formula-row"><span>Thevenin bias network</span><math display="block"><msub><mi>V</mi><mi>TH</mi></msub><mo>=</mo><msub><mi>V</mi><mi>CC</mi></msub><mfrac><msub><mi>R</mi><mn>2</mn></msub><mrow><msub><mi>R</mi><mn>1</mn></msub><mo>+</mo><msub><mi>R</mi><mn>2</mn></msub></mrow></mfrac></math></div>
+            <div class="iae-formula-row"><span>Base current</span><math display="block"><msub><mi>I</mi><mi>B</mi></msub><mo>=</mo><mfrac><mrow><msub><mi>V</mi><mi>TH</mi></msub><mo>-</mo><msub><mi>V</mi><mi>BE</mi></msub></mrow><mrow><msub><mi>R</mi><mi>TH</mi></msub><mo>+</mo><mrow><mo>(</mo><mi>beta</mi><mo>+</mo><mn>1</mn><mo>)</mo></mrow><msub><mi>R</mi><mi>E</mi></msub></mrow></mfrac></math></div>
+            <div class="iae-formula-row"><span>Collector and emitter currents</span><math display="block"><msub><mi>I</mi><mi>C</mi></msub><mo>=</mo><mi>beta</mi><msub><mi>I</mi><mi>B</mi></msub><mspace width="1em"/><msub><mi>I</mi><mi>E</mi></msub><mo>=</mo><mrow><mo>(</mo><mi>beta</mi><mo>+</mo><mn>1</mn><mo>)</mo></mrow><msub><mi>I</mi><mi>B</mi></msub></math></div>
+            <div class="iae-formula-row"><span>Q-point voltage</span><math display="block"><msub><mi>V</mi><mi>CE</mi></msub><mo>=</mo><msub><mi>V</mi><mi>CC</mi></msub><mo>-</mo><msub><mi>I</mi><mi>C</mi></msub><msub><mi>R</mi><mi>C</mi></msub><mo>-</mo><msub><mi>I</mi><mi>E</mi></msub><msub><mi>R</mi><mi>E</mi></msub></math></div>
+            <div class="iae-formula-row"><span>Intrinsic emitter resistance</span><math display="block"><msub><mi>r</mi><mi>e</mi></msub><mo>approximately</mo><mfrac><msub><mi>V</mi><mi>T</mi></msub><msub><mi>I</mi><mi>E</mi></msub></mfrac></math></div>
+            <div class="iae-formula-row"><span>Loaded voltage gain</span><math display="block"><msub><mi>A</mi><mi>v</mi></msub><mo>approximately</mo><mo>-</mo><mfrac><mrow><msub><mi>R</mi><mi>C</mi></msub><mo>parallel</mo><msub><mi>R</mi><mi>L</mi></msub></mrow><msub><mi>r</mi><mi>e</mi></msub></mfrac></math></div>
+            <div class="iae-formula-row"><span>Transistor dissipation</span><math display="block"><msub><mi>P</mi><mi>Q</mi></msub><mo>=</mo><msub><mi>V</mi><mi>CE</mi></msub><msub><mi>I</mi><mi>C</mi></msub></math></div>
+          </div>
+        </figure>
+
+        <div class="iae-theory-note">
+          <h3>Model limits</h3>
+          <p>The calculation assumes a silicon NPN transistor, DC-coupled bias resistors, and capacitors that behave as AC shorts at the signal frequency. Beta and VBE vary substantially with device, temperature, and collector current.</p>
+          <p>Loaded gain uses RC in parallel with RL and a bypassed emitter. Real gain is reduced by transistor output resistance, source resistance, capacitor reactance, wiring parasitics, and loading by the following stage.</p>
+        </div>
+      </div>
+
+      <aside class="iae-calculator-panel">
+        <div class="iae-calculator-header"><div><p class="eyebrow">Live computation</p><h3>Bias and Q-point</h3></div><div class="iae-model-badge">Common emitter / NPN</div></div>
+        <form data-class-a-form>
+          <div class="iae-variable-grid">
+            <label class="iae-variable-field"><span>Supply VCC</span><div><input name="vcc" type="number" min="0" step="any" value="9"><span class="iae-unit-static">V</span></div></label>
+            <label class="iae-variable-field"><span>Divider R1</span><div><input name="r1" type="number" min="0" step="any" value="12"><select name="r1Unit"><option value="1">ohm</option><option value="1000" selected>kohm</option><option value="1000000">Mohm</option></select></div></label>
+            <label class="iae-variable-field"><span>Divider R2</span><div><input name="r2" type="number" min="0" step="any" value="8.2"><select name="r2Unit"><option value="1">ohm</option><option value="1000" selected>kohm</option><option value="1000000">Mohm</option></select></div></label>
+            <label class="iae-variable-field"><span>Collector resistor RC</span><div><input name="rc" type="number" min="0" step="any" value="1"><select name="rcUnit"><option value="1">ohm</option><option value="1000" selected>kohm</option><option value="1000000">Mohm</option></select></div></label>
+            <label class="iae-variable-field"><span>Emitter resistor RE</span><div><input name="re" type="number" min="0" step="any" value="1"><select name="reUnit"><option value="1">ohm</option><option value="1000" selected>kohm</option><option value="1000000">Mohm</option></select></div></label>
+            <label class="iae-variable-field"><span>AC load RL</span><div><input name="rl" type="number" min="0" step="any" value="1"><select name="rlUnit"><option value="1">ohm</option><option value="1000" selected>kohm</option><option value="1000000">Mohm</option></select></div></label>
+            <label class="iae-variable-field"><span>Current gain beta</span><div><input name="beta" type="number" min="1" step="any" value="100"><span class="iae-unit-static">hFE</span></div></label>
+            <label class="iae-variable-field"><span>Base-emitter voltage VBE</span><div><input name="vbe" type="number" min="0" step="any" value="0.7"><span class="iae-unit-static">V</span></div></label>
+            <label class="iae-variable-field"><span>Saturation voltage VCE(sat)</span><div><input name="vcesat" type="number" min="0" step="any" value="0.2"><span class="iae-unit-static">V</span></div></label>
+          </div>
+          <div class="iae-calculator-actions"><button type="button" data-class-a-reset>Reset example</button></div>
+        </form>
+        <p class="iae-calculation-warning" data-class-a-warning hidden>Enter positive circuit values and a valid transistor beta.</p>
+        <div class="iae-primary-result"><p>Collector-emitter Q-point</p><strong data-class-primary-value>-</strong><span data-class-region>Awaiting values</span></div>
+        <dl class="iae-result-grid">
+          <div><dt>Thevenin bias VTH</dt><dd data-class-result="vth">-</dd></div>
+          <div><dt>Thevenin resistance RTH</dt><dd data-class-result="rth">-</dd></div>
+          <div><dt>Base current IB</dt><dd data-class-result="ib">-</dd></div>
+          <div><dt>Collector current IC</dt><dd data-class-result="ic">-</dd></div>
+          <div><dt>Emitter current IE</dt><dd data-class-result="ie">-</dd></div>
+          <div><dt>Base voltage VB</dt><dd data-class-result="vb">-</dd></div>
+          <div><dt>Emitter voltage VE</dt><dd data-class-result="ve">-</dd></div>
+          <div><dt>Collector voltage VC</dt><dd data-class-result="vc">-</dd></div>
+          <div><dt>Transistor dissipation PQ</dt><dd data-class-result="pq">-</dd></div>
+          <div><dt>Intrinsic emitter resistance re</dt><dd data-class-result="re">-</dd></div>
+          <div><dt>Loaded voltage gain Av</dt><dd data-class-result="gain">-</dd></div>
+          <div><dt>Input resistance Rin</dt><dd data-class-result="rin">-</dd></div>
+          <div><dt>Approximate output resistance</dt><dd data-class-result="rout">-</dd></div>
+          <div><dt>Maximum unclipped peak swing</dt><dd data-class-result="swing">-</dd></div>
+          <div class="iae-wide-result"><dt>Maximum sine power into RL</dt><dd data-class-result="power">-</dd></div>
+        </dl>
+        <button type="button" class="iae-copy-calculation" data-copy-class-a>Copy calculation summary</button>
+      </aside>
+    </div>
+  </div>
+</section>
+    </main>
+    <footer class="site-footer">
+      <p>Institute of Applied Electrodynamics</p>
+      <p>Potential. Field. Apparatus. Record.</p>
+    </footer>
+    <script src="tools.js"></script>
+  </body>
+</html>

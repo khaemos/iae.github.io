@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,500;8..60,650&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="styles.css?v=20260619" />
   </head>
   <body class="iae-calculator-page">
     <header class="site-header" data-header>
@@ -33,7 +33,7 @@
   <div class="iae-calculator-workspace">
     <div class="iae-tool-heading">
       <a class="iae-back-command" href="tools.html">Back to tools</a>
-      <p class="eyebrow">Instrument 002 / Magnetics</p>
+      <p class="eyebrow">Instrument 003 / Magnetics</p>
       <h2>Air-Core Inductance Calculator</h2>
       <p>Estimate a single-layer air-core coil using Wheeler's formula and compare it with the ideal long-solenoid model.</p>
     </div>
@@ -50,7 +50,7 @@
         <figure class="iae-technical-plate iae-formula-plate">
           <figcaption><span>Eq. set B</span> Inductor formulas</figcaption>
           <div class="iae-formula-sheet" aria-label="Air-core inductor formulas">
-            <div class="iae-formula-row"><span>Wheeler single-layer coil</span><math display="block"><mi>L</mi><mo>=</mo><mfrac><mrow><msup><mi>d</mi><mn>2</mn></msup><msup><mi>N</mi><mn>2</mn></msup></mrow><mrow><mn>18</mn><mi>d</mi><mo>+</mo><mn>40</mn><mi>l</mi></mrow></mfrac></math></div>
+            <div class="iae-formula-row"><span>Close-wound length</span><math display="block"><mi>l</mi><mo>=</mo><mi>N</mi><msub><mi>d</mi><mi>w</mi></msub></math></div><div class="iae-formula-row"><span>Wheeler single-layer coil</span><math display="block"><mi>L</mi><mo>=</mo><mfrac><mrow><msup><mi>d</mi><mn>2</mn></msup><msup><mi>N</mi><mn>2</mn></msup></mrow><mrow><mn>18</mn><mi>d</mi><mo>+</mo><mn>40</mn><mi>l</mi></mrow></mfrac></math></div>
             <div class="iae-formula-row"><span>Ideal air-core solenoid</span><math display="block"><mi>L</mi><mo>=</mo><mfrac><mrow><msub><mi>mu</mi><mn>0</mn></msub><msup><mi>N</mi><mn>2</mn></msup><mi>A</mi></mrow><mi>l</mi></mfrac></math></div>
             <div class="iae-formula-row"><span>Cross-sectional area</span><math display="block"><mi>A</mi><mo>=</mo><mfrac><mrow><mi>pi</mi><msup><mi>d</mi><mn>2</mn></msup></mrow><mn>4</mn></mfrac></math></div>
             <div class="iae-formula-row"><span>Inductive reactance</span><math display="block"><msub><mi>X</mi><mi>L</mi></msub><mo>=</mo><mn>2</mn><mi>pi</mi><mi>f</mi><mi>L</mi></math></div>
@@ -60,7 +60,7 @@
 
         <div class="iae-theory-note">
           <h3>Model limits</h3>
-          <p>Wheeler's expression returns inductance in microhenries when diameter d and winding length l are entered in inches. It is intended for a single-layer cylindrical air-core coil.</p>
+          <p>Wheeler's expression returns inductance in microhenries when diameter d and the calculated close-wound length l are converted to inches. It is intended for a single-layer cylindrical air-core coil.</p>
           <p>The ideal solenoid comparison neglects end effects, winding pitch, wire diameter, insulation, lead inductance, and parasitic capacitance. Physical measurements will diverge as the winding becomes short, multilayered, or self-resonant.</p>
         </div>
       </div>
@@ -74,16 +74,16 @@
         <form data-air-core-form>
           <div class="iae-variable-grid">
             <label class="iae-variable-field"><span>Coil diameter d</span><div><input name="diameter" type="number" min="0" step="any" value="2"><select name="diameterUnit"><option value="0.001">mm</option><option value="0.01">cm</option><option value="0.0254" selected>in</option></select></div></label>
-            <label class="iae-variable-field"><span>Winding length l</span><div><input name="length" type="number" min="0" step="any" value="3"><select name="lengthUnit"><option value="0.001">mm</option><option value="0.01">cm</option><option value="0.0254" selected>in</option></select></div></label>
+            <label class="iae-variable-field"><span>Wire diameter d<sub>w</sub></span><div><input name="wireDiameter" type="number" min="0" step="any" value="1"><select name="wireDiameterUnit"><option value="0.001" selected>mm</option><option value="0.01">cm</option><option value="0.0254">in</option></select></div></label>
             <label class="iae-variable-field"><span>Number of turns N</span><div><input name="turns" type="number" min="1" step="1" value="50"><span class="iae-unit-static">turns</span></div></label>
           </div>
           <div class="iae-calculator-actions"><button type="button" data-air-core-reset>Reset example</button></div>
         </form>
 
-        <p class="iae-calculation-warning" data-air-core-warning hidden>Enter positive values for diameter, winding length, and turns.</p>
+        <p class="iae-calculation-warning" data-air-core-warning hidden>Enter positive values for coil diameter, wire diameter, and turns.</p>
         <div class="iae-primary-result"><p>Wheeler inductance</p><strong data-air-primary-value>-</strong><span>Single-layer air-core estimate</span></div>
         <dl class="iae-result-grid">
-          <div><dt>Ideal solenoid comparison</dt><dd data-air-result="solenoid">-</dd></div>
+          <div><dt>Calculated winding length</dt><dd data-air-result="length">-</dd></div><div><dt>Ideal solenoid comparison</dt><dd data-air-result="solenoid">-</dd></div>
           <div><dt>Cross-sectional area</dt><dd data-air-result="area">-</dd></div>
           <div><dt>Turn density</dt><dd data-air-result="density">-</dd></div>
           <div><dt>Length / diameter ratio</dt><dd data-air-result="ratio">-</dd></div>

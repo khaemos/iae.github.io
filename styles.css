@@ -1155,3 +1155,26 @@ textarea {
 .iae-model-badge{background:#eef5f74f;border:1px solid var(--line);color:var(--ink);font:700 11px/1 "IBM Plex Mono",monospace;padding:10px 12px;text-transform:uppercase}
 .iae-unit-static{align-items:center;background:#434343;border:1px solid var(--line);border-left:0;color:#fff;display:flex;font:600 12px/1 "IBM Plex Mono",monospace;justify-content:center;padding:12px}
 .iae-tool-catalog{gap:22px}
+/* Allow calculator reference grids and their media to shrink on narrow screens. */
+.iae-tool-reference,
+.iae-technical-plate,
+.iae-circuit-zoom,
+.iae-formula-sheet {
+  min-width: 0;
+}
+
+/* Calculator grid children must be shrinkable. */
+.iae-tool-layout > * {
+  min-width: 0;
+}
+
+/* Keep long scientific formulas inside the mobile plate. */
+@media (max-width: 700px) {
+  .iae-formula-row {
+    grid-template-columns: minmax(0, 1fr);
+    overflow-x: auto;
+  }
+  .iae-formula-row > * {
+    min-width: 0;
+  }
+}
