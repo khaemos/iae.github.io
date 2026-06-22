@@ -42,8 +42,8 @@
           <div class="iae-tool-reference">
             <figure class="iae-technical-plate">
               <figcaption><span>Fig. 01</span> Common-emitter Colpitts topology</figcaption>
-              <a class="iae-circuit-zoom" href="assets/colpitts-circuit-hd.png" target="_blank" title="Open full-resolution circuit">
-                <img src="assets/colpitts-circuit-hd.png" alt="Technical circuit diagram of a transistor Colpitts oscillator">
+              <a class="iae-circuit-zoom" href="assets/colpitts-circuit-hd.png?v=20260621c" target="_blank" title="Open full-resolution circuit">
+                <img src="assets/colpitts-circuit-hd.png?v=20260621c" alt="Technical circuit diagram of a transistor Colpitts oscillator">
               </a>
             </figure>
 
@@ -53,14 +53,21 @@
                 <div class="iae-formula-row"><span>Equivalent tank capacitance</span><math display="block"><msub><mi>C</mi><mi>T</mi></msub><mo>=</mo><mfrac><mrow><msub><mi>C</mi><mn>1</mn></msub><msub><mi>C</mi><mn>2</mn></msub></mrow><mrow><msub><mi>C</mi><mn>1</mn></msub><mo>+</mo><msub><mi>C</mi><mn>2</mn></msub></mrow></mfrac></math></div>
                 <div class="iae-formula-row"><span>Resonant frequency</span><math display="block"><msub><mi>f</mi><mn>0</mn></msub><mo>=</mo><mfrac><mn>1</mn><mrow><mn>2</mn><mi>pi</mi><msqrt><mi>L</mi><msub><mi>C</mi><mi>T</mi></msub></msqrt></mrow></mfrac></math></div>
                 <div class="iae-formula-row"><span>Feedback fraction</span><math display="block"><mi>beta</mi><mo>=</mo><mfrac><msub><mi>C</mi><mn>1</mn></msub><msub><mi>C</mi><mn>2</mn></msub></mfrac></math></div>
-                <div class="iae-formula-row"><span>DC bias at R2</span><math display="block"><msub><mi>V</mi><mrow><mi>R</mi><mn>2</mn></mrow></msub><mo>=</mo><msup><mi>V</mi><mo>+</mo></msup><mfrac><msub><mi>R</mi><mn>2</mn></msub><mrow><msub><mi>R</mi><mn>1</mn></msub><mo>+</mo><msub><mi>R</mi><mn>2</mn></msub></mrow></mfrac></math></div>
+                <div class="iae-formula-row"><span>DC bias at R2</span><math display="block"><msub><mi>V</mi><mrow><mi>R</mi><mn>2</mn></mrow></msub><mo>=</mo><msup><mi>V</mi><mo>+</mo></msup><mfrac><msub><mi>R</mi><mn>2</mn></msub><mrow><msub><mi>R</mi><mn>1</mn></msub><mo>+</mo><msub><mi>R</mi><mn>2</mn></msub></mrow></mfrac></math></div>                <div class="iae-formula-row"><span>Collector resistor</span><math display="block"><msub><mi>R</mi><mi>C</mi></msub><mo>=</mo><mfrac><mrow><msub><mi>V</mi><mi>CC</mi></msub><mo>-</mo><msub><mi>V</mi><mi>EQ</mi></msub><mo>-</mo><msub><mi>V</mi><mi>CEQ</mi></msub></mrow><msub><mi>I</mi><mi>CQ</mi></msub></mfrac></math></div>
+                <div class="iae-formula-row"><span>Emitter resistor</span><math display="block"><msub><mi>R</mi><mi>E</mi></msub><mo>=</mo><mfrac><msub><mi>V</mi><mi>EQ</mi></msub><msub><mi>I</mi><mi>EQ</mi></msub></mfrac></math></div>
+                <div class="iae-formula-row"><span>Emitter bypass capacitor</span><math display="block"><msub><mi>C</mi><mi>E</mi></msub><mo>&#x2265;</mo><mfrac><mn>10</mn><mrow><mn>2</mn><mi>pi</mi><msub><mi>f</mi><mn>0</mn></msub><msub><mi>R</mi><mi>E</mi></msub></mrow></mfrac></math></div>
               </div>
             </figure>
 
             <div class="iae-theory-note">
               <h3>Operating principle</h3>
-              <p>C1 and C2 form a capacitive divider across L. At resonance, energy alternates between the capacitors' electric field and the inductor's magnetic field. The amplifier restores tank losses while the divider returns feedback.</p>
+              <p>C1 and C2 form the capacitive divider around L. At resonance, the transistor restores tank losses while the divider returns the phase-correct feedback required to sustain oscillation.</p>
               <p>The calculation treats components as ideal. A physical oscillator also depends on transistor bias, loop gain, loaded Q, parasitic capacitance, inductor resistance, and device bandwidth.</p>
+
+              <h3>Choosing RC, RE, and CE</h3>
+              <p><strong>RC / collector resistor.</strong> RC converts collector-current variation into output voltage and establishes the collector DC level. First choose the desired quiescent collector current ICQ, then place the transistor near the center of its usable voltage swing. A practical target is VCEQ near one-half of the available supply after allowing for the emitter voltage. Calculate RC = (VCC - VEQ - VCEQ) / ICQ, then select the nearest standard value and verify transistor dissipation.</p>
+              <p><strong>RE / emitter resistor.</strong> RE provides DC negative feedback, making the bias less sensitive to transistor beta and temperature. A useful starting point is VEQ between 10% and 20% of VCC. With IEQ approximately equal to ICQ, use RE = VEQ / IEQ. A larger RE improves bias stability but consumes voltage headroom.</p>
+              <p><strong>CE / emitter bypass capacitor.</strong> CE bypasses RE for AC so the transistor retains gain at the oscillation frequency while RE continues to stabilize DC bias. Choose CE so its reactance at the lowest operating frequency is no more than one-tenth of RE: XCE = 1 / (2 pi f CE) and CE >= 10 / (2 pi fmin RE). Use the next larger standard value and account for capacitor tolerance, ESR, and voltage rating.</p>
             </div>
           </div>
 
