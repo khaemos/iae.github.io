@@ -35,7 +35,7 @@
       <a class="iae-back-command" href="tools.html">Back to tools</a>
       <p class="eyebrow">Instrument 001 / Amplification</p>
       <h2>Class A Transistor Amplifier Calculator</h2>
-      <p>Calculate unloaded midband voltage gain and verify the DC operating point of a voltage-divider biased common-emitter amplifier.</p>
+      <p>Calculate the real midband gain depending on whether the emitter bypass capacitor CE is installed, then verify the DC operating point of a voltage-divider biased common-emitter amplifier.</p>
     </div>
 
     <div class="iae-tool-layout">
@@ -90,23 +90,20 @@
           <div class="iae-calculator-actions"><button type="button" data-class-a-reset>Reset example</button></div>
         </form>
         <p class="iae-calculation-warning" data-class-a-warning hidden>Enter positive circuit values and a valid transistor beta.</p>
-        <div class="iae-primary-result"><p>Bypassed-emitter midband voltage gain</p><strong data-class-primary-value>-</strong><span data-class-region>Awaiting values</span></div>
+        <div class="iae-primary-result"><p>Voltage gain</p><strong data-class-primary-value>-</strong><span data-class-region>Awaiting values</span></div>
         <dl class="iae-result-grid">
-          <div><dt>Thevenin bias VTH</dt><dd data-class-result="vth">-</dd></div>
-          <div><dt>Thevenin resistance RTH</dt><dd data-class-result="rth">-</dd></div>
-          <div><dt>Base current IB</dt><dd data-class-result="ib">-</dd></div>
+          <div><dt>Gain with CE installed</dt><dd data-class-result="gainBypassed">-</dd></div>
+          <div><dt>Gain without CE</dt><dd data-class-result="gainUnbypassed">-</dd></div>
           <div><dt>Collector current IC</dt><dd data-class-result="ic">-</dd></div>
           <div><dt>Emitter current IE</dt><dd data-class-result="ie">-</dd></div>
           <div><dt>Base voltage VB</dt><dd data-class-result="vb">-</dd></div>
-          <div><dt>VBE silicon-model assumption</dt><dd>0.700 V</dd></div>
           <div><dt>Emitter voltage VE</dt><dd data-class-result="ve">-</dd></div>
           <div><dt>Collector voltage VC</dt><dd data-class-result="vc">-</dd></div>
-          <div><dt>Transistor dissipation PQ</dt><dd data-class-result="pq">-</dd></div>
+          <div><dt>Collector-emitter voltage VCE</dt><dd data-class-result="vce">-</dd></div>
           <div><dt>Intrinsic emitter resistance re</dt><dd data-class-result="re">-</dd></div>
-          <div><dt>Collector-emitter Q-point VCE</dt><dd data-class-result="vce">-</dd></div>
+          <div><dt>Maximum clean output swing</dt><dd data-class-result="swing">-</dd></div>
           <div><dt>Input resistance Rin</dt><dd data-class-result="rin">-</dd></div>
-          <div><dt>Approximate output resistance</dt><dd data-class-result="rout">-</dd></div>
-          <div><dt>Maximum unclipped peak swing</dt><dd data-class-result="swing">-</dd></div>
+          <div><dt>Transistor power PQ</dt><dd data-class-result="pq">-</dd></div>
         </dl>
         <button type="button" class="iae-copy-calculation" data-copy-class-a>Copy calculation summary</button>
       </aside>
@@ -118,6 +115,6 @@
       <p>Institute of Applied Electrodynamics</p>
       <p>Potential. Field. Apparatus. Record.</p>
     </footer>
-    <script src="tools.js?v=20260621d"></script>
+    <script src="tools.js?v=20260621e"></script>
   </body>
 </html>

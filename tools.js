@@ -150,9 +150,11 @@ function calculateClassA(){
   else if(vce <= vcesat) region = "Saturation: reduce IC or RC";
   else if(swing <= 0) region = "Bad Q-point: no clean voltage swing";
 
-  document.querySelector("[data-class-primary-value]").textContent = gainBypassed.toPrecision(5) + " V/V";
-  document.querySelector("[data-class-region]").textContent = region + " | unbypassed gain ≈ " + gainUnbypassed.toPrecision(4) + " V/V";
+  document.querySelector("[data-class-primary-value]").textContent = "CE: " + gainBypassed.toPrecision(5) + " V/V  |  no CE: " + gainUnbypassed.toPrecision(5) + " V/V";
+  document.querySelector("[data-class-region]").textContent = region + " — use the CE gain only when the emitter bypass capacitor is installed and effective at your frequency";
 
+  putClassResult("gainBypassed", gainBypassed.toPrecision(5) + " V/V");
+  putClassResult("gainUnbypassed", gainUnbypassed.toPrecision(5) + " V/V");
   putClassResult("vth", classMetric(vth,"voltage"));
   putClassResult("rth", classMetric(rth,"resistance"));
   putClassResult("ib", classMetric(ib,"current"));
@@ -170,28 +172,36 @@ function calculateClassA(){
 
   classASummary = [
     "IAE / Class-A Common-Emitter Amplifier Calculation",
+    "",
+    "Circuit values:",
     "VCC: " + classMetric(vcc,"voltage"),
     "R1: " + classMetric(r1,"resistance"),
     "R2: " + classMetric(r2,"resistance"),
     "RC: " + classMetric(rc,"resistance"),
     "RE: " + classMetric(emitterR,"resistance"),
-    "Beta: " + beta.toPrecision(5),
-    "VTH: " + classMetric(vth,"voltage"),
-    "RTH: " + classMetric(rth,"resistance"),
-    "IB: " + classMetric(ib,"current"),
+    "Beta used: " + beta.toPrecision(5),
+    "VBE model: 0.700 V",
+    "",
+    "DC operating point:",
     "IC: " + classMetric(ic,"current"),
     "IE: " + classMetric(ie,"current"),
     "VB: " + classMetric(vb,"voltage"),
     "VE: " + classMetric(ve,"voltage"),
     "VC: " + classMetric(vc,"voltage"),
     "VCE: " + classMetric(vce,"voltage"),
-    "PQ: " + classMetric(pq,"power"),
-    "Intrinsic emitter resistance re: " + classMetric(intrinsicRe,"resistance"),
-    "Bypassed-emitter gain: " + gainBypassed.toPrecision(5) + " V/V",
-    "Unbypassed-emitter gain: " + gainUnbypassed.toPrecision(5) + " V/V",
-    "Input resistance: " + classMetric(rin,"resistance"),
-    "Max unclipped output swing: " + classMetric(swing,"voltage") + " peak",
-    "Region: " + region
+    "Transistor power PQ: " + classMetric(pq,"power"),
+    "Region: " + region,
+    "",
+    "Gain:",
+    "Internal transistor resistance re: " + classMetric(intrinsicRe,"resistance"),
+    "With CE installed and effective: Av ≈ " + gainBypassed.toPrecision(5) + " V/V",
+    "Without CE: Av ≈ " + gainUnbypassed.toPrecision(5) + " V/V",
+    "Max clean output swing: " + classMetric(swing,"voltage") + " peak",
+    "Input resistance Rin: " + classMetric(rin,"resistance"),
+    "",
+    "Meaning:",
+    "RE is the real emitter resistor. re is the transistor internal small-signal emitter resistance.",
+    "Use the CE gain only when the emitter bypass capacitor is present and large enough for the signal frequency."
   ].join("\n");
 }
 classAForm?.addEventListener("input", calculateClassA);
