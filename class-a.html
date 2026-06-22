@@ -35,15 +35,15 @@
       <a class="iae-back-command" href="tools.html">Back to tools</a>
       <p class="eyebrow">Instrument 001 / Amplification</p>
       <h2>Class A Transistor Amplifier Calculator</h2>
-      <p>Calculate the DC operating point and bypassed-emitter small-signal performance of a voltage-divider biased common-emitter amplifier.</p>
+      <p>Calculate unloaded midband voltage gain and verify the DC operating point of a voltage-divider biased common-emitter amplifier.</p>
     </div>
 
     <div class="iae-tool-layout">
       <div class="iae-tool-reference">
         <figure class="iae-technical-plate">
           <figcaption><span>Fig. 01</span> Voltage-divider biased Class A stage</figcaption>
-          <a class="iae-circuit-zoom" href="assets/class-a-amplifier-hd.png" target="_blank" title="Open full-resolution amplifier circuit">
-            <img src="assets/class-a-amplifier-hd.png" alt="Class A NPN transistor amplifier with divider bias">
+          <a class="iae-circuit-zoom" href="assets/class-a-amplifier-hd.png?v=20260621b" target="_blank" title="Open full-resolution amplifier circuit">
+            <img src="assets/class-a-amplifier-hd.png?v=20260621b" alt="Class A NPN transistor amplifier with divider bias">
           </a>
         </figure>
 
@@ -55,20 +55,25 @@
             <div class="iae-formula-row"><span>Collector and emitter currents</span><math display="block"><msub><mi>I</mi><mi>C</mi></msub><mo>=</mo><mi>beta</mi><msub><mi>I</mi><mi>B</mi></msub><mspace width="1em"/><msub><mi>I</mi><mi>E</mi></msub><mo>=</mo><mrow><mo>(</mo><mi>beta</mi><mo>+</mo><mn>1</mn><mo>)</mo></mrow><msub><mi>I</mi><mi>B</mi></msub></math></div>
             <div class="iae-formula-row"><span>Q-point voltage</span><math display="block"><msub><mi>V</mi><mi>CE</mi></msub><mo>=</mo><msub><mi>V</mi><mi>CC</mi></msub><mo>-</mo><msub><mi>I</mi><mi>C</mi></msub><msub><mi>R</mi><mi>C</mi></msub><mo>-</mo><msub><mi>I</mi><mi>E</mi></msub><msub><mi>R</mi><mi>E</mi></msub></math></div>
             <div class="iae-formula-row"><span>Intrinsic emitter resistance</span><math display="block"><msub><mi>r</mi><mi>e</mi></msub><mo>approximately</mo><mfrac><msub><mi>V</mi><mi>T</mi></msub><msub><mi>I</mi><mi>E</mi></msub></mfrac></math></div>
-            <div class="iae-formula-row"><span>Loaded voltage gain</span><math display="block"><msub><mi>A</mi><mi>v</mi></msub><mo>approximately</mo><mo>-</mo><mfrac><mrow><msub><mi>R</mi><mi>C</mi></msub><mo>parallel</mo><msub><mi>R</mi><mi>L</mi></msub></mrow><msub><mi>r</mi><mi>e</mi></msub></mfrac></math></div>
+            <div class="iae-formula-row"><span>Unloaded midband voltage gain</span><math display="block"><msub><mi>A</mi><mi>v</mi></msub><mo>approximately</mo><mo>-</mo><mfrac><msub><mi>R</mi><mi>C</mi></msub><msub><mi>r</mi><mi>e</mi></msub></mfrac></math></div>
             <div class="iae-formula-row"><span>Transistor dissipation</span><math display="block"><msub><mi>P</mi><mi>Q</mi></msub><mo>=</mo><msub><mi>V</mi><mi>CE</mi></msub><msub><mi>I</mi><mi>C</mi></msub></math></div>
           </div>
         </figure>
 
         <div class="iae-theory-note">
-          <h3>Model limits</h3>
-          <p>The calculation assumes a silicon NPN transistor, DC-coupled bias resistors, and capacitors that behave as AC shorts at the signal frequency. Beta and VBE vary substantially with device, temperature, and collector current.</p>
-          <p>Loaded gain uses RC in parallel with RL and a bypassed emitter. Real gain is reduced by transistor output resistance, source resistance, capacitor reactance, wiring parasitics, and loading by the following stage.</p>
+          <h3>Choosing the transistor bias</h3>
+          <p><strong>Choose the quiescent current first.</strong> Select ICQ from the transistor datasheet's recommended operating region, the required gain, noise, bandwidth, and permitted dissipation. For the bypassed-emitter model, |Av| is approximately RC / re and re is approximately 25.85 mV / IE, so increasing current raises gain but also raises heating and reduces available collector voltage.</p>
+          <p><strong>Use the transistor's VBE at that current.</strong> Do not assume 0.700 V for every device. Read the datasheet VBE versus IC curves, including temperature limits, or measure the intended transistor. Silicon small-signal devices are often between about 0.60 V and 0.75 V, but the calculator should use the value expected at ICQ and operating temperature.</p>
+          <p><strong>Place the Q-point for voltage swing.</strong> Choose VEQ, commonly around 10% to 20% of VCC, then set VBQ = VEQ + VBE. For approximately symmetrical collector swing, choose VCQ near (VCC + VEQ + VCE(sat)) / 2 and verify VCEQ, ICQ, and PQ = VCEQ ICQ remain within the datasheet safe operating area.</p>
+          <p><strong>Make the divider stiff enough.</strong> Estimate worst-case base current with the datasheet minimum beta, not its typical value. A practical divider current through R2 is five to ten times that base current. Then R2 is approximately VBQ / Idivider and R1 is approximately (VCC - VBQ) / (Idivider + IB). Recalculate the loaded divider with the minimum beta and check cutoff and saturation at temperature extremes.</p>
+
+          <h3>Gain model limits</h3>
+          <p>The displayed gain is the unloaded, bypassed-emitter midband estimate Av = -RC / re. The minus sign represents the common-emitter stage's 180-degree phase inversion. Actual gain is lower when CE is not an effective AC short, and because of source resistance, transistor output resistance, wiring parasitics, device bandwidth, and any external load connected to VOUT.</p>
         </div>
       </div>
 
       <aside class="iae-calculator-panel">
-        <div class="iae-calculator-header"><div><p class="eyebrow">Live computation</p><h3>Bias and Q-point</h3></div><div class="iae-model-badge">Common emitter / NPN</div></div>
+        <div class="iae-calculator-header"><div><p class="eyebrow">Live computation</p><h3>Gain and Q-point</h3></div><div class="iae-model-badge">Common emitter / NPN</div></div>
         <form data-class-a-form>
           <div class="iae-variable-grid">
             <label class="iae-variable-field"><span>Supply VCC</span><div><input name="vcc" type="number" min="0" step="any" value="9"><span class="iae-unit-static">V</span></div></label>
@@ -76,7 +81,6 @@
             <label class="iae-variable-field"><span>Divider R2</span><div><input name="r2" type="number" min="0" step="any" value="8.2"><select name="r2Unit"><option value="1">ohm</option><option value="1000" selected>kohm</option><option value="1000000">Mohm</option></select></div></label>
             <label class="iae-variable-field"><span>Collector resistor RC</span><div><input name="rc" type="number" min="0" step="any" value="1"><select name="rcUnit"><option value="1">ohm</option><option value="1000" selected>kohm</option><option value="1000000">Mohm</option></select></div></label>
             <label class="iae-variable-field"><span>Emitter resistor RE</span><div><input name="re" type="number" min="0" step="any" value="1"><select name="reUnit"><option value="1">ohm</option><option value="1000" selected>kohm</option><option value="1000000">Mohm</option></select></div></label>
-            <label class="iae-variable-field"><span>AC load RL</span><div><input name="rl" type="number" min="0" step="any" value="1"><select name="rlUnit"><option value="1">ohm</option><option value="1000" selected>kohm</option><option value="1000000">Mohm</option></select></div></label>
             <label class="iae-variable-field"><span>Current gain beta</span><div><input name="beta" type="number" min="1" step="any" value="100"><span class="iae-unit-static">hFE</span></div></label>
             <label class="iae-variable-field"><span>Base-emitter voltage VBE</span><div><input name="vbe" type="number" min="0" step="any" value="0.7"><span class="iae-unit-static">V</span></div></label>
             <label class="iae-variable-field"><span>Saturation voltage VCE(sat)</span><div><input name="vcesat" type="number" min="0" step="any" value="0.2"><span class="iae-unit-static">V</span></div></label>
@@ -84,7 +88,7 @@
           <div class="iae-calculator-actions"><button type="button" data-class-a-reset>Reset example</button></div>
         </form>
         <p class="iae-calculation-warning" data-class-a-warning hidden>Enter positive circuit values and a valid transistor beta.</p>
-        <div class="iae-primary-result"><p>Collector-emitter Q-point</p><strong data-class-primary-value>-</strong><span data-class-region>Awaiting values</span></div>
+        <div class="iae-primary-result"><p>Unloaded midband voltage gain</p><strong data-class-primary-value>-</strong><span data-class-region>Awaiting values</span></div>
         <dl class="iae-result-grid">
           <div><dt>Thevenin bias VTH</dt><dd data-class-result="vth">-</dd></div>
           <div><dt>Thevenin resistance RTH</dt><dd data-class-result="rth">-</dd></div>
@@ -96,11 +100,10 @@
           <div><dt>Collector voltage VC</dt><dd data-class-result="vc">-</dd></div>
           <div><dt>Transistor dissipation PQ</dt><dd data-class-result="pq">-</dd></div>
           <div><dt>Intrinsic emitter resistance re</dt><dd data-class-result="re">-</dd></div>
-          <div><dt>Loaded voltage gain Av</dt><dd data-class-result="gain">-</dd></div>
+          <div><dt>Collector-emitter Q-point VCE</dt><dd data-class-result="vce">-</dd></div>
           <div><dt>Input resistance Rin</dt><dd data-class-result="rin">-</dd></div>
           <div><dt>Approximate output resistance</dt><dd data-class-result="rout">-</dd></div>
           <div><dt>Maximum unclipped peak swing</dt><dd data-class-result="swing">-</dd></div>
-          <div class="iae-wide-result"><dt>Maximum sine power into RL</dt><dd data-class-result="power">-</dd></div>
         </dl>
         <button type="button" class="iae-copy-calculation" data-copy-class-a>Copy calculation summary</button>
       </aside>
