@@ -63,7 +63,7 @@
         <div class="iae-theory-note">
           <h3>Choosing the transistor bias</h3>
           <p><strong>Choose the quiescent current first.</strong> Select ICQ from the transistor datasheet's recommended operating region, the required gain, noise, bandwidth, and permitted dissipation. For the bypassed-emitter model, |Av| is approximately RC / re and re is approximately 25.85 mV / IE, so increasing current raises gain but also raises heating and reduces available collector voltage.</p>
-          <p><strong>Use the transistor's VBE at that current.</strong> Do not assume 0.700 V for every device. Read the datasheet VBE versus IC curves, including temperature limits, or measure the intended transistor. Silicon small-signal devices are often between about 0.60 V and 0.75 V, but the calculator should use the value expected at ICQ and operating temperature.</p>
+          <p><strong>Use the transistor's VBE at that current.</strong> This calculator uses a fixed 0.700 V silicon-junction estimate because VBE cannot be derived from the resistor network alone. For device-specific design, verify the datasheet VBE versus IC and temperature curves, or measure the intended transistor; the actual value commonly shifts with current, device, and temperature.</p>
           <p><strong>Place the Q-point for voltage swing.</strong> Choose VEQ, commonly around 10% to 20% of VCC, then set VBQ = VEQ + VBE. For approximately symmetrical collector swing, choose VCQ near (VCC + VEQ + VCE(sat)) / 2 and verify VCEQ, ICQ, and PQ = VCEQ ICQ remain within the datasheet safe operating area.</p>
           <p><strong>Make the divider stiff enough.</strong> Estimate worst-case base current with the datasheet minimum beta, not its typical value. A practical divider current through R2 is five to ten times that base current. Then R2 is approximately VBQ / Idivider and R1 is approximately (VCC - VBQ) / (Idivider + IB). Recalculate the loaded divider with the minimum beta and check cutoff and saturation at temperature extremes.</p>
 
@@ -73,7 +73,7 @@
       </div>
 
       <aside class="iae-calculator-panel">
-        <div class="iae-calculator-header"><div><p class="eyebrow">Live computation</p><h3>Gain and Q-point</h3></div><div class="iae-model-badge">Common emitter / NPN</div></div>
+        <div class="iae-calculator-header"><div><p class="eyebrow">Live computation</p><h3>Gain and Q-point</h3></div><div class="iae-model-badge">NPN / VBE 0.70 V / VCEsat 0.20 V</div></div>
         <form data-class-a-form>
           <div class="iae-variable-grid">
             <label class="iae-variable-field"><span>Supply VCC</span><div><input name="vcc" type="number" min="0" step="any" value="9"><span class="iae-unit-static">V</span></div></label>
@@ -82,8 +82,6 @@
             <label class="iae-variable-field"><span>Collector resistor RC</span><div><input name="rc" type="number" min="0" step="any" value="1"><select name="rcUnit"><option value="1">ohm</option><option value="1000" selected>kohm</option><option value="1000000">Mohm</option></select></div></label>
             <label class="iae-variable-field"><span>Emitter resistor RE</span><div><input name="re" type="number" min="0" step="any" value="1"><select name="reUnit"><option value="1">ohm</option><option value="1000" selected>kohm</option><option value="1000000">Mohm</option></select></div></label>
             <label class="iae-variable-field"><span>Current gain beta</span><div><input name="beta" type="number" min="1" step="any" value="100"><span class="iae-unit-static">hFE</span></div></label>
-            <label class="iae-variable-field"><span>Base-emitter voltage VBE</span><div><input name="vbe" type="number" min="0" step="any" value="0.7"><span class="iae-unit-static">V</span></div></label>
-            <label class="iae-variable-field"><span>Saturation voltage VCE(sat)</span><div><input name="vcesat" type="number" min="0" step="any" value="0.2"><span class="iae-unit-static">V</span></div></label>
           </div>
           <div class="iae-calculator-actions"><button type="button" data-class-a-reset>Reset example</button></div>
         </form>
@@ -96,6 +94,7 @@
           <div><dt>Collector current IC</dt><dd data-class-result="ic">-</dd></div>
           <div><dt>Emitter current IE</dt><dd data-class-result="ie">-</dd></div>
           <div><dt>Base voltage VB</dt><dd data-class-result="vb">-</dd></div>
+          <div><dt>VBE silicon-model assumption</dt><dd>0.700 V</dd></div>
           <div><dt>Emitter voltage VE</dt><dd data-class-result="ve">-</dd></div>
           <div><dt>Collector voltage VC</dt><dd data-class-result="vc">-</dd></div>
           <div><dt>Transistor dissipation PQ</dt><dd data-class-result="pq">-</dd></div>
@@ -115,6 +114,6 @@
       <p>Institute of Applied Electrodynamics</p>
       <p>Potential. Field. Apparatus. Record.</p>
     </footer>
-    <script src="tools.js"></script>
+    <script src="tools.js?v=20260621c"></script>
   </body>
 </html>
