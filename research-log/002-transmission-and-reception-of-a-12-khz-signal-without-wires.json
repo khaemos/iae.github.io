@@ -1,0 +1,58 @@
+{
+  "number": 2,
+  "date": "2026-06-25",
+  "status": "published",
+  "visibility": "public",
+  "title": "Transmission and reception of a 12 Khz signal without wires",
+  "summary": "This experiment demonstrates electromagnetic propagation through the air by driving a tuned 12 kHz VLF (Very Low Frequency) oscillator into a single-wire antenna.\n\nThe emitted wave is captured remotely by a high-impedance VLF receiver probe, which feeds the raw signal directly into an audio spectrum analyzer to visualize atmospheric background noise, environmental interference, and the primary transmission signal.",
+  "tags": [
+    "oscillator",
+    "amplifier",
+    "vlf receiver",
+    "spectrum analyzer"
+  ],
+  "images": [
+    {
+      "src": "assets/1.jpeg",
+      "alt": "Before transmission",
+      "caption": "Before transmission"
+    },
+    {
+      "src": "assets/2.jpeg",
+      "alt": "During transmission",
+      "caption": "During transmission"
+    },
+    {
+      "src": "assets/3.jpeg",
+      "alt": "With base noise",
+      "caption": "With base noise"
+    },
+    {
+      "src": "assets/5.jpeg",
+      "alt": "TRANSMISSION STOPPED",
+      "caption": "TRANSMISSION STOPPED"
+    }
+  ],
+  "objective": "Evaluate the wireless transmission efficiency of the JFET receiver using a low power transmitter in the VLF band.",
+  "apparatus": "Oscillator with amplifier - Output signal (Vp-p: 1.5v, 12Khz)\nVLF JFET high impedance receiver\nSpectrum analyzer\nOscillocope",
+  "observations": "Mains Grid Harmonics: Caused by nearby grid and electronic power supplies.\n\nTime-Domain Pulsing: The horizontal harmonic interference lines exhibit a visible \"breathing\" or pulsing pattern on the timeline. This is caused by phase beating between the power grid's drifting frequency and real-time duty-cycle changes in electronic appliances.\n\n12 kHz Transmission Peak: When the transmitter is activated, a sharp, bright, continuous vertical trace appears precisely at the 12 kHz coordinate on the spectrogram waterfall, slicing cleanly through the ambient background noise.",
+  "next": "Finish remote VLF receiver and test in an open field far far from mains grid.",
+  "measurements": [
+    {
+      "label": "Frequency",
+      "value": "11.92 Khz"
+    },
+    {
+      "label": "C1",
+      "value": "300 nF"
+    },
+    {
+      "label": "C2",
+      "value": "300 nF"
+    },
+    {
+      "label": "L1",
+      "value": "440 uH"
+    }
+  ]
+}
