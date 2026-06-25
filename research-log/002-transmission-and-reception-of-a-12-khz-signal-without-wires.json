@@ -4,7 +4,7 @@
   "status": "published",
   "visibility": "public",
   "title": "Transmission and reception of a 12 Khz signal without wires",
-  "summary": "This experiment demonstrates electromagnetic propagation through the air by driving a tuned 12 kHz VLF (Very Low Frequency) oscillator into a single-wire antenna.\n\nThe emitted wave is captured remotely by a high-impedance VLF receiver probe, which feeds the raw signal directly into an audio spectrum analyzer to visualize atmospheric background noise, environmental interference, and the primary transmission signal.",
+  "summary": "This experiment demonstrates electromagnetic propagation through the air by driving a tuned 12 kHz VLF (Very Low Frequency) oscillator into a single-wire antenna.\n\nThe emitted wave is captured remotely by a high-impedance VLF receiver probe. The received signal is then fed directly into a spectrum analyzer to visualize the primary transmission, atmospheric background noise, and environmental electromagnetic interference.",
   "tags": [
     "oscillator",
     "amplifier",
