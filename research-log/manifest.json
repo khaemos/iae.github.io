@@ -1,5 +1,6 @@
 {
   "entries": [
-    "001-single-wire-antenna-as-a-broadcast-band-probe.json"
+    "001-single-wire-antenna-as-a-broadcast-band-probe.json",
+    "002-transmission-and-reception-of-a-12-khz-signal-without-wires.json"
   ]
 }
